@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[tool.pyink]
+pyink = true
+preview = true
+unstable = true
+pyink-indentation = 2
+line-length = 80
+pyink-use-majority-quotes = true
+exclude = "_pb2"
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+envlist = 3.9, 3.10, 3.11
+
+[testenv]
+basepython =
+  3.9: python3.9
+  3.10: python3.10
+  3.11: python3.11
+
+commands =
+  bash proto.sh
+  python --version
+  # gpylint pyhal --ignore-paths="pyhal/proto, pyhal/instrument/abstraction" --disable="g-bad-import-order"
+  pytype pyhal --jobs=auto --exclude='pyhal/proto' --output=.pytype/{envname} --disable=pyi-error
+  pytype demo --jobs=auto --output=.pytype/demo/{envname} --disable=pyi-error
+
+  # coverage run --source=pyhal -m unittest discover -s tests/unit
+  # coverage report -m
+
+usedevelop = True
+
+allowlist_externals =
+  /usr/bin/gpylint
+  /usr/bin/bash
+
+deps =
+  pytype
+  coverage
+"""
+
+[tool.coverage.report]
+exclude_lines = ["pragma: no cover", "@abc.abstractmethod", "pass"]

@@ -1,0 +1,177 @@
+// Copyright 2024 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package aqvisa;
+
+option java_package = "acute";
+option java_outer_classname = "AcuteProto";
+option java_multiple_files = true;
+option objc_class_prefix = "Acute";
+
+service AqVISA {
+    rpc ViWrite (ViWriteRequest) returns (ViWriteResponse) {}
+    rpc ViRead (ViReadRequest) returns (ViReadResponse) {}
+    rpc ViGetCommandResult (ViGetCommandResultRequest) returns (ViGetCommandResultResponse) {
+        option deprecated = true;
+    }
+}
+
+// Enums
+enum AQVI_STATUS {
+    // No Error
+    AQVI_NO_ERROR = 0;
+
+    // Error: The main software application was not started
+    AQVI_APPLICATION_NOT_STARTED = 2;
+
+    // Warn: There's no any data returned.
+    AQVI_NO_RETURN_DATA = 7;
+
+    // Warn: Input data buffer size is too small
+    AQVI_DATA_BUFFER_TOO_SMALL = 9;
+
+    // Warn: Previous command still processing
+    AQVI_PREVIOUS_CMD_PROCESSING = 12;
+
+    // Error: Input parameter unknown or not supported
+    AQVI_INPUT_PARAMETER_UNKNOWN = 13;
+
+    // Error: Input parameter incompleted
+    AQVI_INPUT_PARAMETER_INCOMPLETED = 14;
+
+    // Error: Not supported in current software
+    AQVI_NOT_SUPPORTED = 1000;
+
+    // Error: Command incomplete
+    AQVI_INCOMPLETE_COMMAND = 1001;
+
+    // Error: Input command requires exist SubWindow
+    AQVI_SUBWND_INVALID = 1002;
+
+    // Error: Exceed maximum page count as requested
+    AQVI_SUBWND_CNT_EXCEED = 1003;
+
+    // Error: Input command ignored while software busy
+    AQVI_SW_BUSY = 1004;
+
+    // Error: Input command requires exist Logic Analyzer SubWindow
+    AQVI_LASUBWND_INVALID = 1005;
+
+    // Command Error: Input command requires exist Protocol Analyzer SubWindow
+    AQVI_PASUBWND_INVALID = 1006;
+
+    // Error: Input command requires existing Decode Report
+    AQVI_DECODE_REPORT_INVALID = 1007;
+
+    // Error: Input commands requires exist Timing Report
+    AQVI_TIMING_REPORT_INVALID = 1008;
+
+    // Error: Command formate error
+    AQVI_COMMAND_FORMAT_ERROR = 1009;
+
+    // Error: Incorrect input file
+    AQVI_INPUT_FILE_DIR_INVALID = 1010;
+
+    // Error: Sending Capture Start command while capture already running
+    AQVI_CAPTURE_ALREADY_RUNNING = 1011;
+
+    // Error: Sending Capture Stop command while capture is not running
+    AQVI_CAPTURE_NOT_RUNNING = 1012;
+
+    // Error: Input Row or Column index invalid
+    AQVI_ROW_COL_INDEX_INVALID = 1013;
+
+    // Error: Input index selection invalid
+    AQVI_SELECT_INDEX_INVALID = 1014;
+
+    // Error: Missing input parametes or not enough input parameter
+    AQVI_INPUT_PARAMETER_INVALID = 1015;
+
+    // Error: Input settings file format error
+    AQVI_INPUT_SETTING_FILE_FORMAT_ERROR = 1016;
+
+    // Error: Unable to reach select file directory
+    AQVI_FILE_ACCESS_ERROR = 1017;
+
+    // Error: Input commands requires exist Transition Report
+    AQVI_TRANSITION_REPORT_INVALID = 1018;
+
+    // Error: Input commands requires existint measurement report
+    AQVI_MEASUREMENT_REPORT_INVALID = 1019;
+
+    // Error: Selected Label Name not valid
+    AQVI_SELECT_LABEL_INVALID = 1020;
+
+    // Error: Selected Range Condition Error, can't mix Line and Cursor Range condition
+    AQVI_SELECT_RANGE_ERROR = 1021;
+
+    // Error: Selected Channel Name in Cursor Search is not valid
+    AQVI_SELECT_CHANNEL_NAME_INVALID = 1022;
+
+    // Error: Cursor Search failed, unable to find more valid match
+    AQVI_CURSOR_SEARCH_FAILED = 1023;
+
+    // Error: Waveform data not ready
+    AQVI_WAVEFORM_NOT_READY = 1024;
+
+    // Error: Software is not configured in EV mode
+    AQVI_NOT_IN_EV_MODE = 1025;
+
+    // Error: Software doesn't have any valid EV analysis result
+    AQVI_NO_EV_ANALYSIS_RESULT = 1026;
+
+    // Error: Unsupported feature
+    AQVI_UNSUPPORT_FEATURE = 9995;
+
+    // Error: Unfinished Feature
+    AQVI_UNFINISHED_FEATURE = 9996;
+
+    // Error: Unknown command
+    AQVI_UNKNOWN_COMMAND_ERROR = 9997;
+
+    // Error: Unknown Error
+    AQVI_UNKNOWN_ERROR = 9998;
+}
+
+message ViWriteRequest {
+    bytes command = 1;
+}
+
+message ViWriteResponse {
+    optional bytes job_id = 1;
+    AQVI_STATUS status_code = 2;
+}
+
+message ViGetCommandResultRequest {
+    option deprecated = true;
+    bytes job_id = 1;
+}
+
+message ViGetCommandResultResponse {
+    option deprecated = true;
+    AQVI_STATUS status_code = 1;
+}
+
+message ViReadRequest {
+    bytes job_id = 1 [deprecated = true];
+    int64 count = 2;
+}
+
+message ViReadResponse {
+    AQVI_STATUS status_code = 1;
+    optional bytes command_response = 2;
+    optional int64 ret_count = 3;
+}

@@ -1,0 +1,128 @@
+// Copyright 2024 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "pyhal/proto/datagrame.proto";
+
+enum SystemCommand {
+  SYSTEM_QUER = 0;
+  SYSTEM_CONN = 1;
+  SYSTEM_FCON = 2;
+  SYSTEM_DISC = 3;
+
+  SYSTEM_SUCC = 4;
+  SYSTEM_FAIL = 5;
+
+  SYSTEM_IDLE = 6;
+  SYSTEM_BUSY = 7;
+
+  SYSTEM_SCAN = 8;
+}
+
+message SystemRequest {
+    SystemCommand action = 1;
+}
+
+message SystemResponse {
+    SystemCommand response_status = 1;
+    SystemCommand response_command = 2;
+    string scan_info = 3;
+}
+
+service BasicSystem {
+    rpc BasicSystem(SystemRequest) returns (SystemResponse) {};
+}
+
+
+message SerialConfig {
+    int32 baud_rate = 4;
+    int32 data_bits = 5;
+    float stop_bits = 6;
+    string parity = 7;
+    int32 flow_control = 8;
+}
+
+message InstRequest {
+    string socket_host = 1;
+    int32 socket_port = 2;
+
+    string visa_resource = 3;
+
+    SerialConfig serial_config = 4;
+
+    string interface_type = 5;
+
+    string read_terminator = 6;
+    string write_terminator = 7;
+
+    int32 connect_timeout = 8;
+    int32 recv_timeout = 9;
+    int32 send_timeout = 10;
+
+    string name = 11;
+    string pyhal_board_interface_type = 12;
+}
+
+message InstResponse {
+    bool result = 1;
+    string name = 2;
+}
+
+message RecvRequest{
+    string name = 1;
+}
+
+message SendRequest{
+    string name = 1;
+    bytes send = 2;
+}
+
+message RecvResponse {
+    bytes read = 1;
+}
+
+message CloseRequest {
+    string name = 1;
+}
+
+message CloseResponse {
+    bool status = 1;
+}
+
+message SendDataRequest{
+    string name = 1;
+    oneof data {
+        datagrame.StringDatagrame stringData = 2;
+    }
+}
+
+message RecvDataResponse{
+    oneof data {
+        datagrame.StringDatagrame stringData = 1;
+    }
+}
+
+
+service Instrument {
+    rpc Init(InstRequest) returns (InstResponse) {};
+    rpc Close(CloseRequest) returns (CloseResponse) {};
+    rpc Send(SendRequest) returns (google.protobuf.Empty) {};
+    rpc Recv(RecvRequest) returns (RecvResponse) {};
+    rpc Query(SendRequest) returns (RecvResponse) {};
+    rpc SendData(SendDataRequest) returns (google.protobuf.Empty) {};
+    rpc RecvData(RecvRequest) returns (RecvDataResponse) {};
+    rpc QueryData(SendDataRequest) returns (RecvDataResponse) {};
+}

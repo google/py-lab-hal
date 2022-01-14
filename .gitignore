@@ -1,0 +1,41 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# Distribution / packaging
+.dist/
+.build/
+build/
+*.egg-info/
+
+# Unit test / coverage reports
+.tox/
+.pytest_cache/
+.coverage
+
+# Sphinx documentation
+doc/build/doctrees
+
+# vscode
+.vscode
+
+# Environments
+venv*/
+
+# pytype static type analyzer
+.pytype/
+
+# PyHAL
+collect_data/
+logs/
+
+# For test folder
+for_test/
+
+# Files
+*.png
+
+# PyCharm/IntelliJ
+.idea
+
+# For Initial Open Source, ignore this
+doc/
