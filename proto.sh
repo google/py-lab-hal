@@ -12,5 +12,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-python3 -m grpc_tools.protoc --proto_path=. --python_out=. --grpc_python_out=. ./pyhal/proto/*.proto --pyi_out=.
-python3 -m grpc_tools.protoc --proto_path=. --python_out=. --grpc_python_out=. ./pyhal/proto/cominterface/*.proto --pyi_out=.
+python3 -m grpc_tools.protoc --proto_path=. --python_out=. --grpc_python_out=. ./py_lab_hal/proto/*.proto --pyi_out=.
+python3 -m grpc_tools.protoc --proto_path=. --python_out=. --grpc_python_out=. ./py_lab_hal/proto/cominterface/*.proto --pyi_out=.

@@ -15,7 +15,7 @@
 syntax = "proto3";
 
 import "google/protobuf/empty.proto";
-import "pyhal/proto/datagrame.proto";
+import "py_lab_hal/proto/datagrame.proto";
 
 enum SystemCommand {
   SYSTEM_QUER = 0;

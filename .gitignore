@@ -1,41 +1,69 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+*.py[cod]
+*$py.class
 
 # Distribution / packaging
-.dist/
-.build/
+.Python
 build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+!build_scripts/wheels
+*wheelhouse/
+pip-wheel-metadata/
+share/python-wheels/
 *.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
 # Unit test / coverage reports
+htmlcov/
 .tox/
-.pytest_cache/
+.nox/
 .coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
 
 # Sphinx documentation
-doc/build/doctrees
+docs/_build/
 
+# IDEs
 # vscode
 .vscode
+# PyCharm/IntelliJ
+.idea
 
 # Environments
+.env
+.venv
+env/
 venv*/
+ENV/
+env.bak/
+venv.bak/
 
 # pytype static type analyzer
 .pytype/
 
-# PyHAL
+# py-hal-hal
 collect_data/
 logs/
-
-# For test folder
-for_test/
-
-# Files
-*.png
-
-# PyCharm/IntelliJ
-.idea
 
 # For Initial Open Source, ignore this
 doc/

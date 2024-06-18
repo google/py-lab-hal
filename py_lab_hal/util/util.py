@@ -23,7 +23,7 @@ from typing import Any, TypeVar, overload
 
 KEYTYPE = TypeVar('KEYTYPE', bound='str')
 VALUETYPE = TypeVar('VALUETYPE')
-ENUMINPUTTYPE = TypeVar('ENUMINPUTTYPE', bound='PyHalEnum')
+ENUMINPUTTYPE = TypeVar('ENUMINPUTTYPE', bound='PyLabHalEnum')
 
 
 class PyLabHalEnum(enum.Enum):

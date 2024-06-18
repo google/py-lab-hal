@@ -1,3 +1,59 @@
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+[project]
+name = "py-lab-hal"
+version = "2.0.20240311"
+description = "A test instrument Hardware Abstraction Layer (HAL)"
+readme = "README.md"
+requires-python = ">=3.9, <3.12"
+classifiers = [
+  'Development Status :: 5 - Production/Stable',
+  'Intended Audience :: Developers',
+  'License :: OSI Approved :: Apache Software License',
+  'Programming Language :: Python',
+  'Programming Language :: Python :: 3',
+  'Programming Language :: Python :: 3.10',
+  'Programming Language :: Python :: 3.11',
+  'Programming Language :: Python :: 3 :: Only',
+  'Topic :: Software Development',
+  'Topic :: System :: Hardware :: Hardware Drivers',
+  'Topic :: Scientific/Engineering',
+  'Operating System :: Microsoft :: Windows',
+  'Operating System :: POSIX',
+  'Operating System :: Unix',
+  'Operating System :: MacOS',
+]
+dependencies = [
+  'dataclasses-json==0.6.4',
+  'ifcfg==0.24',
+  'libusb==1.0.27',
+  'monsoon==0.1.88',
+  'pyserial==3.5',
+  'python-usbtmc==0.8',
+  'python-vxi11==0.9',
+  'PyVISA==1.14.1',
+  'grpcio==1.62.0',
+]
+
+[project.urls]
+Homepage = "https://github.com/google/py-lab-hal"
+Issues = "https://github.com/google/py-lab-hal/issues"
+
+[project.optional-dependencies]
+tests = ['pytest == 8.2.0']
+
 [build-system]
 requires = ["setuptools", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
@@ -11,37 +67,48 @@ line-length = 80
 pyink-use-majority-quotes = true
 exclude = "_pb2"
 
-[tool.tox]
-legacy_tox_ini = """
-[tox]
-envlist = 3.9, 3.10, 3.11
-
-[testenv]
-basepython =
-  3.9: python3.9
-  3.10: python3.10
-  3.11: python3.11
-
-commands =
-  bash proto.sh
-  python --version
-  # gpylint pyhal --ignore-paths="pyhal/proto, pyhal/instrument/abstraction" --disable="g-bad-import-order"
-  pytype pyhal --jobs=auto --exclude='pyhal/proto' --output=.pytype/{envname} --disable=pyi-error
-  pytype demo --jobs=auto --output=.pytype/demo/{envname} --disable=pyi-error
-
-  # coverage run --source=pyhal -m unittest discover -s tests/unit
-  # coverage report -m
-
-usedevelop = True
-
-allowlist_externals =
-  /usr/bin/gpylint
-  /usr/bin/bash
-
-deps =
-  pytype
-  coverage
-"""
 
 [tool.coverage.report]
 exclude_lines = ["pragma: no cover", "@abc.abstractmethod", "pass"]
+
+
+[tool.pytype]
+
+# Space-separated list of files or directories to exclude.
+exclude = ['**/*_test.py', '**/test_*.py', '**/proto/**']
+
+# Space-separated list of files or directories to process.
+inputs = ['py_lab_hal']
+# inputs = ['py_lab_hal', 'demo']
+
+# Keep going past errors to analyze as many files as possible.
+keep_going = true
+
+# Run N jobs in parallel. When 'auto' is used, this will be equivalent to the
+# number of CPUs on the host system.
+jobs = 'auto'
+
+# All pytype output goes here.
+# output = '.pytype'
+
+# Platform (e.g., "linux", "win32") that the target code runs on.
+# platform = 'linux'
+
+# Paths to source code directories, separated by ':'.
+pythonpath = '.'
+
+# Python version (major.minor) of the target code.
+python_version = '3.11'
+
+# Space-separated list of error names to ignore.
+disable = ['pyi-error']
+
+# Don't report errors.
+report_errors = true
+
+[tool.grpc_tools.protoc]
+
+proto_path = '.'
+python_out = '.'
+grpc_python_out = '.'
+pyi_out = '.'
