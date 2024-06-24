@@ -73,7 +73,7 @@ message InstRequest {
     int32 send_timeout = 10;
 
     string name = 11;
-    string pyhal_board_interface_type = 12;
+    string py_lab_hal_board_interface_type = 12;
 }
 
 message InstResponse {

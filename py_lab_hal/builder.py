@@ -178,8 +178,8 @@ class _InstrumentEnum(util.PyLabHalEnum):
     return categories_enum.get(instrument_info['module'])
 
 
-class PyHALBuilder:
-  """This is the builder for pyhal."""
+class PyLabHALBuilder:
+  """This is the builder for py_lab_hal."""
 
   def __init__(self):
     self.connection_config: cominterface.ConnectConfig | None = None
@@ -313,17 +313,19 @@ class PyHALBuilder:
 
 
 if __name__ == '__main__':
-  pyhal_builder = PyHALBuilder()
-  pyhal_builder.connection_config = cominterface.ConnectConfig(
+  pylabhal_builder = PyLabHALBuilder()
+  pylabhal_builder.connection_config = cominterface.ConnectConfig(
       network=cominterface.NetworkConfig(host='127.0.0.1', port=5025),
       # serial_config=cominterface.SerialConfig(baud_rate=115200),
   )
-  pyhal_builder.instrument_config = instrument.InstrumentConfig(auto_init=True)
+  pylabhal_builder.instrument_config = instrument.InstrumentConfig(
+      auto_init=True
+  )
 
-  # pyhal_builder.cc = cominterface.ConnectConfig.from_json('')
+  # pylabhal_builder.cc = cominterface.ConnectConfig.from_json('')
 
-  inst = pyhal_builder.build_instrument(Relay.USBRELAY)
-  # inst = pyhal_builder.build_instrument('relay.usbrelay')
+  inst = pylabhal_builder.build_instrument(Relay.USBRELAY)
+  # inst = pylabhal_builder.build_instrument('relay.usbrelay')
 
   print(type(inst))
   # inst.

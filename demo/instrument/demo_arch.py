@@ -19,7 +19,7 @@ from py_lab_hal.cominterface import cominterface
 
 
 def main() -> None:
-  build = builder.PyHALBuilder()
+  build = builder.PyLabHALBuilder()
   build.connection_config = cominterface.ConnectConfig(
       network=cominterface.NetworkConfig(host='192.168.0.11', port=8000)
   )

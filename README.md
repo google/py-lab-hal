@@ -64,7 +64,7 @@ test equipment.
 Creating the `builder` is a simple one-liner:
 
 ```
-build = builder.PyHALBuilder()
+build = builder.PyLabHALBuilder()
 ```
 ## Configuring the cominterface
 Since Py-Lab-HAL is supporting various interfaces, there are quite a lot of
@@ -73,7 +73,7 @@ parameters to set up across each interface. For details, check out the source.
 To see what is connected to your system and their resource data, you can use our
 built-in utility in a terminal:
 ```shell
-python3 -m pyhal.scan
+python3 -m py_lab_hal.scan
 ```
 This will scan and list out all the visa_resources available to your system.
 
@@ -221,7 +221,7 @@ import time
 from py_lab_hal import builder
 from py_lab_hal.cominterface import cominterface
 
-build = builder.PyHALBuilder()
+build = builder.PyLabHALBuilder()
 
 build.connection_config = cominterface.ConnectConfig(
   visa_resource='USB0::10893::769::MY59006118::0::INSTR',

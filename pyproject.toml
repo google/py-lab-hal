@@ -14,7 +14,7 @@
 
 [project]
 name = "py-lab-hal"
-version = "2.0.20240311"
+version = "2.2.20240701"
 description = "A test instrument Hardware Abstraction Layer (HAL)"
 readme = "README.md"
 requires-python = ">=3.9, <3.12"
@@ -36,15 +36,16 @@ classifiers = [
   'Operating System :: MacOS',
 ]
 dependencies = [
-  'dataclasses-json==0.6.4',
-  'ifcfg==0.24',
-  'libusb==1.0.27',
-  'monsoon==0.1.88',
-  'pyserial==3.5',
-  'python-usbtmc==0.8',
-  'python-vxi11==0.9',
-  'PyVISA==1.14.1',
-  'grpcio==1.62.0',
+  'dataclasses-json~=0.6.4',
+  'grpcio~=1.62.0',
+  'ifcfg~=0.24',
+  'libusb~=1.0.27',
+  'monsoon~=0.1.88',
+  'pyserial~=3.5',
+  'python-usbtmc~=0.8',
+  'python-vxi11~=0.9',
+  'PyVISA~=1.14.1',
+  'requests~=2.32.3',
 ]
 
 [project.urls]
@@ -52,11 +53,14 @@ Homepage = "https://github.com/google/py-lab-hal"
 Issues = "https://github.com/google/py-lab-hal/issues"
 
 [project.optional-dependencies]
-tests = ['pytest == 8.2.0']
+tests = ['pytest ~= 8.2.0']
 
 [build-system]
 requires = ["setuptools", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = ['py_lab_hal']
 
 [tool.pyink]
 pyink = true

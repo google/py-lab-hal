@@ -30,15 +30,15 @@ from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 from py_lab_hal.proto import datagrame_pb2 as py__lab__hal_dot_proto_dot_datagrame__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n!py_lab_hal/proto/py_lab_hal.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a py_lab_hal/proto/datagrame.proto\"/\n\rSystemRequest\x12\x1e\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x0e.SystemCommand\"v\n\x0eSystemResponse\x12\'\n\x0fresponse_status\x18\x01 \x01(\x0e\x32\x0e.SystemCommand\x12(\n\x10response_command\x18\x02 \x01(\x0e\x32\x0e.SystemCommand\x12\x11\n\tscan_info\x18\x03 \x01(\t\"m\n\x0cSerialConfig\x12\x11\n\tbaud_rate\x18\x04 \x01(\x05\x12\x11\n\tdata_bits\x18\x05 \x01(\x05\x12\x11\n\tstop_bits\x18\x06 \x01(\x02\x12\x0e\n\x06parity\x18\x07 \x01(\t\x12\x14\n\x0c\x66low_control\x18\x08 \x01(\x05\"\xb6\x02\n\x0bInstRequest\x12\x13\n\x0bsocket_host\x18\x01 \x01(\t\x12\x13\n\x0bsocket_port\x18\x02 \x01(\x05\x12\x15\n\rvisa_resource\x18\x03 \x01(\t\x12$\n\rserial_config\x18\x04 \x01(\x0b\x32\r.SerialConfig\x12\x16\n\x0einterface_type\x18\x05 \x01(\t\x12\x17\n\x0fread_terminator\x18\x06 \x01(\t\x12\x18\n\x10write_terminator\x18\x07 \x01(\t\x12\x17\n\x0f\x63onnect_timeout\x18\x08 \x01(\x05\x12\x14\n\x0crecv_timeout\x18\t \x01(\x05\x12\x14\n\x0csend_timeout\x18\n \x01(\x05\x12\x0c\n\x04name\x18\x0b \x01(\t\x12\"\n\x1apyhal_board_interface_type\x18\x0c \x01(\t\",\n\x0cInstResponse\x12\x0e\n\x06result\x18\x01 \x01(\x08\x12\x0c\n\x04name\x18\x02 \x01(\t\"\x1b\n\x0bRecvRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\")\n\x0bSendRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04send\x18\x02 \x01(\x0c\"\x1c\n\x0cRecvResponse\x12\x0c\n\x04read\x18\x01 \x01(\x0c\"\x1c\n\x0c\x43loseRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"\x1f\n\rCloseResponse\x12\x0e\n\x06status\x18\x01 \x01(\x08\"Y\n\x0fSendDataRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x30\n\nstringData\x18\x02 \x01(\x0b\x32\x1a.datagrame.StringDatagrameH\x00\x42\x06\n\x04\x64\x61ta\"L\n\x10RecvDataResponse\x12\x30\n\nstringData\x18\x01 \x01(\x0b\x32\x1a.datagrame.StringDatagrameH\x00\x42\x06\n\x04\x64\x61ta*\xa8\x01\n\rSystemCommand\x12\x0f\n\x0bSYSTEM_QUER\x10\x00\x12\x0f\n\x0bSYSTEM_CONN\x10\x01\x12\x0f\n\x0bSYSTEM_FCON\x10\x02\x12\x0f\n\x0bSYSTEM_DISC\x10\x03\x12\x0f\n\x0bSYSTEM_SUCC\x10\x04\x12\x0f\n\x0bSYSTEM_FAIL\x10\x05\x12\x0f\n\x0bSYSTEM_IDLE\x10\x06\x12\x0f\n\x0bSYSTEM_BUSY\x10\x07\x12\x0f\n\x0bSYSTEM_SCAN\x10\x08\x32?\n\x0b\x42\x61sicSystem\x12\x30\n\x0b\x42\x61sicSystem\x12\x0e.SystemRequest\x1a\x0f.SystemResponse\"\x00\x32\xf7\x02\n\nInstrument\x12%\n\x04Init\x12\x0c.InstRequest\x1a\r.InstResponse\"\x00\x12(\n\x05\x43lose\x12\r.CloseRequest\x1a\x0e.CloseResponse\"\x00\x12.\n\x04Send\x12\x0c.SendRequest\x1a\x16.google.protobuf.Empty\"\x00\x12%\n\x04Recv\x12\x0c.RecvRequest\x1a\r.RecvResponse\"\x00\x12&\n\x05Query\x12\x0c.SendRequest\x1a\r.RecvResponse\"\x00\x12\x36\n\x08SendData\x12\x10.SendDataRequest\x1a\x16.google.protobuf.Empty\"\x00\x12-\n\x08RecvData\x12\x0c.RecvRequest\x1a\x11.RecvDataResponse\"\x00\x12\x32\n\tQueryData\x12\x10.SendDataRequest\x1a\x11.RecvDataResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n!py_lab_hal/proto/py_lab_hal.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a py_lab_hal/proto/datagrame.proto\"/\n\rSystemRequest\x12\x1e\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x0e.SystemCommand\"v\n\x0eSystemResponse\x12\'\n\x0fresponse_status\x18\x01 \x01(\x0e\x32\x0e.SystemCommand\x12(\n\x10response_command\x18\x02 \x01(\x0e\x32\x0e.SystemCommand\x12\x11\n\tscan_info\x18\x03 \x01(\t\"m\n\x0cSerialConfig\x12\x11\n\tbaud_rate\x18\x04 \x01(\x05\x12\x11\n\tdata_bits\x18\x05 \x01(\x05\x12\x11\n\tstop_bits\x18\x06 \x01(\x02\x12\x0e\n\x06parity\x18\x07 \x01(\t\x12\x14\n\x0c\x66low_control\x18\x08 \x01(\x05\"\xbb\x02\n\x0bInstRequest\x12\x13\n\x0bsocket_host\x18\x01 \x01(\t\x12\x13\n\x0bsocket_port\x18\x02 \x01(\x05\x12\x15\n\rvisa_resource\x18\x03 \x01(\t\x12$\n\rserial_config\x18\x04 \x01(\x0b\x32\r.SerialConfig\x12\x16\n\x0einterface_type\x18\x05 \x01(\t\x12\x17\n\x0fread_terminator\x18\x06 \x01(\t\x12\x18\n\x10write_terminator\x18\x07 \x01(\t\x12\x17\n\x0f\x63onnect_timeout\x18\x08 \x01(\x05\x12\x14\n\x0crecv_timeout\x18\t \x01(\x05\x12\x14\n\x0csend_timeout\x18\n \x01(\x05\x12\x0c\n\x04name\x18\x0b \x01(\t\x12\'\n\x1fpy_lab_hal_board_interface_type\x18\x0c \x01(\t\",\n\x0cInstResponse\x12\x0e\n\x06result\x18\x01 \x01(\x08\x12\x0c\n\x04name\x18\x02 \x01(\t\"\x1b\n\x0bRecvRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\")\n\x0bSendRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04send\x18\x02 \x01(\x0c\"\x1c\n\x0cRecvResponse\x12\x0c\n\x04read\x18\x01 \x01(\x0c\"\x1c\n\x0c\x43loseRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"\x1f\n\rCloseResponse\x12\x0e\n\x06status\x18\x01 \x01(\x08\"Y\n\x0fSendDataRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x30\n\nstringData\x18\x02 \x01(\x0b\x32\x1a.datagrame.StringDatagrameH\x00\x42\x06\n\x04\x64\x61ta\"L\n\x10RecvDataResponse\x12\x30\n\nstringData\x18\x01 \x01(\x0b\x32\x1a.datagrame.StringDatagrameH\x00\x42\x06\n\x04\x64\x61ta*\xa8\x01\n\rSystemCommand\x12\x0f\n\x0bSYSTEM_QUER\x10\x00\x12\x0f\n\x0bSYSTEM_CONN\x10\x01\x12\x0f\n\x0bSYSTEM_FCON\x10\x02\x12\x0f\n\x0bSYSTEM_DISC\x10\x03\x12\x0f\n\x0bSYSTEM_SUCC\x10\x04\x12\x0f\n\x0bSYSTEM_FAIL\x10\x05\x12\x0f\n\x0bSYSTEM_IDLE\x10\x06\x12\x0f\n\x0bSYSTEM_BUSY\x10\x07\x12\x0f\n\x0bSYSTEM_SCAN\x10\x08\x32?\n\x0b\x42\x61sicSystem\x12\x30\n\x0b\x42\x61sicSystem\x12\x0e.SystemRequest\x1a\x0f.SystemResponse\"\x00\x32\xf7\x02\n\nInstrument\x12%\n\x04Init\x12\x0c.InstRequest\x1a\r.InstResponse\"\x00\x12(\n\x05\x43lose\x12\r.CloseRequest\x1a\x0e.CloseResponse\"\x00\x12.\n\x04Send\x12\x0c.SendRequest\x1a\x16.google.protobuf.Empty\"\x00\x12%\n\x04Recv\x12\x0c.RecvRequest\x1a\r.RecvResponse\"\x00\x12&\n\x05Query\x12\x0c.SendRequest\x1a\r.RecvResponse\"\x00\x12\x36\n\x08SendData\x12\x10.SendDataRequest\x1a\x16.google.protobuf.Empty\"\x00\x12-\n\x08RecvData\x12\x0c.RecvRequest\x1a\x11.RecvDataResponse\"\x00\x12\x32\n\tQueryData\x12\x10.SendDataRequest\x1a\x11.RecvDataResponse\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'py_lab_hal.proto.py_lab_hal_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_SYSTEMCOMMAND']._serialized_start=1074
-  _globals['_SYSTEMCOMMAND']._serialized_end=1242
+  _globals['_SYSTEMCOMMAND']._serialized_start=1079
+  _globals['_SYSTEMCOMMAND']._serialized_end=1247
   _globals['_SYSTEMREQUEST']._serialized_start=100
   _globals['_SYSTEMREQUEST']._serialized_end=147
   _globals['_SYSTEMRESPONSE']._serialized_start=149
@@ -46,25 +46,25 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_SERIALCONFIG']._serialized_start=269
   _globals['_SERIALCONFIG']._serialized_end=378
   _globals['_INSTREQUEST']._serialized_start=381
-  _globals['_INSTREQUEST']._serialized_end=691
-  _globals['_INSTRESPONSE']._serialized_start=693
-  _globals['_INSTRESPONSE']._serialized_end=737
-  _globals['_RECVREQUEST']._serialized_start=739
-  _globals['_RECVREQUEST']._serialized_end=766
-  _globals['_SENDREQUEST']._serialized_start=768
-  _globals['_SENDREQUEST']._serialized_end=809
-  _globals['_RECVRESPONSE']._serialized_start=811
-  _globals['_RECVRESPONSE']._serialized_end=839
-  _globals['_CLOSEREQUEST']._serialized_start=841
-  _globals['_CLOSEREQUEST']._serialized_end=869
-  _globals['_CLOSERESPONSE']._serialized_start=871
-  _globals['_CLOSERESPONSE']._serialized_end=902
-  _globals['_SENDDATAREQUEST']._serialized_start=904
-  _globals['_SENDDATAREQUEST']._serialized_end=993
-  _globals['_RECVDATARESPONSE']._serialized_start=995
-  _globals['_RECVDATARESPONSE']._serialized_end=1071
-  _globals['_BASICSYSTEM']._serialized_start=1244
-  _globals['_BASICSYSTEM']._serialized_end=1307
-  _globals['_INSTRUMENT']._serialized_start=1310
-  _globals['_INSTRUMENT']._serialized_end=1685
+  _globals['_INSTREQUEST']._serialized_end=696
+  _globals['_INSTRESPONSE']._serialized_start=698
+  _globals['_INSTRESPONSE']._serialized_end=742
+  _globals['_RECVREQUEST']._serialized_start=744
+  _globals['_RECVREQUEST']._serialized_end=771
+  _globals['_SENDREQUEST']._serialized_start=773
+  _globals['_SENDREQUEST']._serialized_end=814
+  _globals['_RECVRESPONSE']._serialized_start=816
+  _globals['_RECVRESPONSE']._serialized_end=844
+  _globals['_CLOSEREQUEST']._serialized_start=846
+  _globals['_CLOSEREQUEST']._serialized_end=874
+  _globals['_CLOSERESPONSE']._serialized_start=876
+  _globals['_CLOSERESPONSE']._serialized_end=907
+  _globals['_SENDDATAREQUEST']._serialized_start=909
+  _globals['_SENDDATAREQUEST']._serialized_end=998
+  _globals['_RECVDATARESPONSE']._serialized_start=1000
+  _globals['_RECVDATARESPONSE']._serialized_end=1076
+  _globals['_BASICSYSTEM']._serialized_start=1249
+  _globals['_BASICSYSTEM']._serialized_end=1312
+  _globals['_INSTRUMENT']._serialized_start=1315
+  _globals['_INSTRUMENT']._serialized_end=1690
 # @@protoc_insertion_point(module_scope)

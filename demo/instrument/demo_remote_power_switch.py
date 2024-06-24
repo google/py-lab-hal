@@ -22,7 +22,7 @@ from py_lab_hal.instrument import instrument
 
 
 def main() -> None:
-  build = builder.PyHALBuilder()
+  build = builder.PyLabHALBuilder()
   build.connection_config = cominterface.ConnectConfig(
       interface_type='http',
       http_config=cominterface.HttpConfig(

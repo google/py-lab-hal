@@ -21,7 +21,7 @@ from py_lab_hal.cominterface import cominterface
 
 
 def main() -> None:
-  build = builder.PyHALBuilder()
+  build = builder.PyLabHALBuilder()
   build.connection_config = cominterface.ConnectConfig(
       visa_resource='ASRL/dev/ttyUSB0::INSTR',
   )

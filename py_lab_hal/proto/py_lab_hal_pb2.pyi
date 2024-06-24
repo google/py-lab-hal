@@ -59,7 +59,7 @@ class SerialConfig(_message.Message):
     def __init__(self, baud_rate: _Optional[int] = ..., data_bits: _Optional[int] = ..., stop_bits: _Optional[float] = ..., parity: _Optional[str] = ..., flow_control: _Optional[int] = ...) -> None: ...
 
 class InstRequest(_message.Message):
-    __slots__ = ("socket_host", "socket_port", "visa_resource", "serial_config", "interface_type", "read_terminator", "write_terminator", "connect_timeout", "recv_timeout", "send_timeout", "name", "pyhal_board_interface_type")
+    __slots__ = ("socket_host", "socket_port", "visa_resource", "serial_config", "interface_type", "read_terminator", "write_terminator", "connect_timeout", "recv_timeout", "send_timeout", "name", "py_lab_hal_board_interface_type")
     SOCKET_HOST_FIELD_NUMBER: _ClassVar[int]
     SOCKET_PORT_FIELD_NUMBER: _ClassVar[int]
     VISA_RESOURCE_FIELD_NUMBER: _ClassVar[int]
@@ -71,7 +71,7 @@ class InstRequest(_message.Message):
     RECV_TIMEOUT_FIELD_NUMBER: _ClassVar[int]
     SEND_TIMEOUT_FIELD_NUMBER: _ClassVar[int]
     NAME_FIELD_NUMBER: _ClassVar[int]
-    PYHAL_BOARD_INTERFACE_TYPE_FIELD_NUMBER: _ClassVar[int]
+    PY_LAB_HAL_BOARD_INTERFACE_TYPE_FIELD_NUMBER: _ClassVar[int]
     socket_host: str
     socket_port: int
     visa_resource: str
@@ -83,8 +83,8 @@ class InstRequest(_message.Message):
     recv_timeout: int
     send_timeout: int
     name: str
-    pyhal_board_interface_type: str
-    def __init__(self, socket_host: _Optional[str] = ..., socket_port: _Optional[int] = ..., visa_resource: _Optional[str] = ..., serial_config: _Optional[_Union[SerialConfig, _Mapping]] = ..., interface_type: _Optional[str] = ..., read_terminator: _Optional[str] = ..., write_terminator: _Optional[str] = ..., connect_timeout: _Optional[int] = ..., recv_timeout: _Optional[int] = ..., send_timeout: _Optional[int] = ..., name: _Optional[str] = ..., pyhal_board_interface_type: _Optional[str] = ...) -> None: ...
+    py_lab_hal_board_interface_type: str
+    def __init__(self, socket_host: _Optional[str] = ..., socket_port: _Optional[int] = ..., visa_resource: _Optional[str] = ..., serial_config: _Optional[_Union[SerialConfig, _Mapping]] = ..., interface_type: _Optional[str] = ..., read_terminator: _Optional[str] = ..., write_terminator: _Optional[str] = ..., connect_timeout: _Optional[int] = ..., recv_timeout: _Optional[int] = ..., send_timeout: _Optional[int] = ..., name: _Optional[str] = ..., py_lab_hal_board_interface_type: _Optional[str] = ...) -> None: ...
 
 class InstResponse(_message.Message):
     __slots__ = ("result", "name")

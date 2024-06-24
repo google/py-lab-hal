@@ -12,22 +12,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Child ComInterfaceClass Module of pyhal board."""
+"""Child ComInterfaceClass Module of pylabhal board."""
 
 from py_lab_hal.cominterface import cominterface
-from py_lab_hal.pyhal_board_client import client_agent
+from py_lab_hal.py_lab_hal_board_client import client_agent
 
 
-class Pyhalboard(cominterface.ComInterfaceClass):
+class Pylabhalboard(cominterface.ComInterfaceClass):
   """Child ComInterfaceClass Module of socket."""
 
   agent: client_agent.ClientAgent
   name: str
 
   def _open(self) -> None:
-    # self.connect_config.interface_type = 'pyhal_board'
+    # self.connect_config.interface_type = 'pylabhalboard'
     self.agent = client_agent.ClientAgent.get_instance()
-    self.agent.set_connection(self.connect_config.pyhal_board_ip)
+    self.agent.set_connection(self.connect_config.py_lab_hal_board_ip)
     respond = self.agent.inst_init(self.connect_config)
     self.name = respond.name
 

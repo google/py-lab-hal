@@ -14,7 +14,7 @@
 
 """Board Server."""
 
-from py_lab_hal.pyhal_board_server import pyhal_server
+from py_lab_hal.py_lab_hal_board_server import py_lab_hal_server
 
 if __name__ == '__main__':
-  pyhal_server.serve()
+  py_lab_hal_server.serve()

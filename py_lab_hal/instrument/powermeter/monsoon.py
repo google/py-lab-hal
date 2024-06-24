@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""PyHal Monsoon power monitor class.
+"""PyLabHal Monsoon power monitor class.
 
 Supported Models: FTA22J: Low voltage Power Monitor. AAA10F: high voltage power
 monitor.

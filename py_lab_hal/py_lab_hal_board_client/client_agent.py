@@ -18,18 +18,18 @@ from __future__ import annotations
 
 import grpc
 from py_lab_hal.cominterface import cominterface
-from py_lab_hal.proto import pyhal_pb2  # type: ignore
-from py_lab_hal.proto import pyhal_pb2_grpc  # type: ignore
+from py_lab_hal.proto import py_lab_hal_pb2  # type: ignore
+from py_lab_hal.proto import py_lab_hal_pb2_grpc  # type: ignore
 from py_lab_hal.util import proto_util
 
 
 class ClientAgent(object):
-  """Handle the communication between gRPC and PyHAL."""
+  """Handle the communication between gRPC and PyLabHAL."""
 
   _instance = None
   _channel: grpc.Channel
-  _basicsystem_stub: pyhal_pb2_grpc.BasicSystemStub
-  _inst_stub: pyhal_pb2_grpc.InstrumentStub
+  _basicsystem_stub: py_lab_hal_pb2_grpc.BasicSystemStub
+  _inst_stub: py_lab_hal_pb2_grpc.InstrumentStub
 
   def __init__(self) -> None:
     ClientAgent._instance = self
@@ -45,29 +45,29 @@ class ClientAgent(object):
     """Steup the connection."""
 
     self._channel = grpc.insecure_channel(ip)
-    self._basicsystem_stub = pyhal_pb2_grpc.BasicSystemStub(self._channel)
-    self._inst_stub = pyhal_pb2_grpc.InstrumentStub(self._channel)
+    self._basicsystem_stub = py_lab_hal_pb2_grpc.BasicSystemStub(self._channel)
+    self._inst_stub = py_lab_hal_pb2_grpc.InstrumentStub(self._channel)
     self.connected = True
 
   def close_connection(self, name: str) -> bool:
     """Steup the connection."""
-    request = pyhal_pb2.CloseRequest(name=name)
-    response: pyhal_pb2.CloseResponse = self._inst_stub.Close(request)
+    request = py_lab_hal_pb2.CloseRequest(name=name)
+    response: py_lab_hal_pb2.CloseResponse = self._inst_stub.Close(request)
     return response.status
 
-  def basic_system(self, action: str) -> pyhal_pb2.SystemResponse:
+  def basic_system(self, action: str) -> py_lab_hal_pb2.SystemResponse:
     """gRPC Basic command."""
 
-    request = pyhal_pb2.SystemRequest(action=action)
+    request = py_lab_hal_pb2.SystemRequest(action=action)
     return self._basicsystem_stub.BasicSystem(request)
 
   def inst_init(
       self, connect_config: cominterface.ConnectConfig
-  ) -> pyhal_pb2.InstResponse:
+  ) -> py_lab_hal_pb2.InstResponse:
     """gRPC instrument init."""
 
     request = proto_util.com2grpc(connect_config)
-    response: pyhal_pb2.InstResponse = self._inst_stub.Init(request)
+    response: py_lab_hal_pb2.InstResponse = self._inst_stub.Init(request)
     if not response.result:
       raise RuntimeError
     return response
@@ -75,22 +75,22 @@ class ClientAgent(object):
   def send(self, name: str, data: bytes) -> None:
     """gRPC command init."""
 
-    request = pyhal_pb2.SendRequest(name=name, send=data)
+    request = py_lab_hal_pb2.SendRequest(name=name, send=data)
     self._inst_stub.Send(request)
     return None
 
   def recv(self, name: str) -> bytes:
     """gRPC command init."""
 
-    request = pyhal_pb2.RecvRequest(name=name)
-    response: pyhal_pb2.RecvResponse = self._inst_stub.Recv(request)
+    request = py_lab_hal_pb2.RecvRequest(name=name)
+    response: py_lab_hal_pb2.RecvResponse = self._inst_stub.Recv(request)
     return response.read
 
   def query(self, name: str, data: bytes) -> bytes:
     """gRPC command init."""
 
-    request = pyhal_pb2.SendRequest(name=name, send=data)
-    response: pyhal_pb2.RecvResponse = self._inst_stub.Query(request)
+    request = py_lab_hal_pb2.SendRequest(name=name, send=data)
+    response: py_lab_hal_pb2.RecvResponse = self._inst_stub.Query(request)
     return response.read
 
   def send_data(self, name: str, data_g):
@@ -102,6 +102,8 @@ class ClientAgent(object):
   def recv_data(self, name: str):
     """gRPC command init."""
 
-    request = pyhal_pb2.RecvRequest(name=name)
-    response: pyhal_pb2.RecvDataResponse = self._inst_stub.RecvData(request)
+    request = py_lab_hal_pb2.RecvRequest(name=name)
+    response: py_lab_hal_pb2.RecvDataResponse = self._inst_stub.RecvData(
+        request
+    )
     return proto_util.grpc2data(response)

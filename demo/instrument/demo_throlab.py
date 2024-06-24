@@ -21,14 +21,14 @@ from py_lab_hal.cominterface import cominterface
 
 
 def main() -> None:
-  build = builder.PyHALBuilder()
+  build = builder.PyLabHALBuilder()
   build.connection_config = cominterface.ConnectConfig(
       visa_resource='/dev/ttyUSB0',
       serial_config=cominterface.SerialConfig(
           baud_rate=115200,
           flow_control=cominterface.ControlFlow.RST_CTS,
       ),
-      # pyhal_board_ip='192.168.29.46:50051',
+      # py_lab_hal_board_ip='192.168.29.46:50051',
       terminator=cominterface.TerminatorConfig(read=''),
   )
 

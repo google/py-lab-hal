@@ -31,7 +31,7 @@ class TestKeysightn6705c:
 
   @pytest.fixture(scope='class', autouse=True)
   def setup_thermal(self):
-    build = builder.PyHALBuilder()
+    build = builder.PyLabHALBuilder()
     build.connection_config = cominterface.ConnectConfig(interface_type='debug')
 
     build.instrument_config.clear = False

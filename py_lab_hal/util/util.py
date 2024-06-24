@@ -27,7 +27,7 @@ ENUMINPUTTYPE = TypeVar('ENUMINPUTTYPE', bound='PyLabHalEnum')
 
 
 class PyLabHalEnum(enum.Enum):
-  """The enum class that used in PyHAL."""
+  """The enum class that used in PyLabHAL."""
 
   @overload
   @classmethod
@@ -60,7 +60,7 @@ class PyLabHalEnum(enum.Enum):
 
 
 class InstrumentEnum(PyLabHalEnum):
-  """The enum class that used in PyHAL."""
+  """The enum class that used in py-lab-hal."""
 
   @staticmethod
   def _generate_next_value_(name, start, count, last_values):

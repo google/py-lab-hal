@@ -19,7 +19,7 @@ from py_lab_hal.cominterface import cominterface
 
 
 def main() -> None:
-  build = builder.PyHALBuilder()
+  build = builder.PyLabHALBuilder()
   build.connection_config = cominterface.ConnectConfig(
       visa_resource='USB0::2665::2110::636002001440::0::INSTR',
   )

@@ -21,7 +21,7 @@ from py_lab_hal.cominterface import cominterface
 
 
 def main() -> None:
-  build = builder.PyHALBuilder()
+  build = builder.PyLabHALBuilder()
   build.connection_config = cominterface.ConnectConfig(
       interface_type='dmx',
       visa_resource='/dev/ttyUSB0',

@@ -401,7 +401,7 @@ def select(
   logging.debug('Init instrument select')
 
   # The package argument might need to be updated depending on folder structure
-  package_name = f'pyhal.instrument.{instrument_type}.{module_name}'
+  package_name = f'py_lab_hal.instrument.{instrument_type}.{module_name}'
   model_module = importlib.import_module(name=package_name)
 
   module = getattr(model_module, class_name)

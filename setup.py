@@ -12,37 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Pytype setup file."""
+"""The python package setup file."""
 
-import pathlib
-import re
+import setuptools
 
-from setuptools import find_packages
-from setuptools import setup
-
-ROOT = pathlib.Path(__file__).parent
-DIR = ROOT / 'pyhal' / 'dut_interface' / 'adb'
-FILES = [str(x) for x in DIR.glob('*')]
-REQUIREMENTS = ROOT / 'requirements.txt'
-
-# get the dependencies
-with open(REQUIREMENTS, encoding='utf-8') as f:
-  ALL_REQS = f.read().split('\n')[:-1]
-INSTALL_REQUIRES = [
-    x.strip() for x in ALL_REQS if not (re.match(r'(^(#|-))|(git\+)', x))
-]
-DEPENDENCY_LINKS = [
-    x.strip().replace('git+', '') for x in ALL_REQS if 'git+' in x
-]
-
-setup(
-    name='pyhal',
-    version='2.0.20240311',
-    description='A test instrument Hardware Abstraction Layer (HAL)',
-    packages=find_packages(include=['pyhal', 'pyhal.*']),
-    package_data={'pyhal.dut_interface': FILES},
-    include_package_data=True,
-    install_requires=INSTALL_REQUIRES,
-    dependency_links=DEPENDENCY_LINKS,
-    python_requires='>=3.9, <3.12',
-)
+setuptools.setup()

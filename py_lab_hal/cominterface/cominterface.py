@@ -103,7 +103,7 @@ SUPPORT_INTERFACE = [
     'vxi11',
     'debug',
     'dmx',
-    'pyhalboard',
+    'pylabhalboard',
     'http',
     'acute',
     'usb',
@@ -291,9 +291,9 @@ class ConnectConfig(json_dataclass.DataClassJsonCamelMixIn):
       timeout (TimeoutConfig): The timeout config
       network (NetworkConfig): The network config
       http_config (HttpConfig): The config for connect with http
-      pyhal_board_ip (str): The IP of the pyhal board
-      pyhal_board_interface_type (str): The interface_type that pyhal_board will
-        use
+      py_lab_hal_board_ip (str): The IP of the py-lab-hal board
+      py_lab_hal_board_interface_type (str): The interface_type that
+        py_labhal_board will use
   """
 
   visa_resource: str = ''
@@ -304,12 +304,12 @@ class ConnectConfig(json_dataclass.DataClassJsonCamelMixIn):
   )
   timeout: TimeoutConfig = dataclasses.field(default_factory=TimeoutConfig)
   network: NetworkConfig = dataclasses.field(default_factory=NetworkConfig)
-  pyhal_board_ip: str = ''
+  py_lab_hal_board_ip: str = ''
   http_config: HttpConfig = dataclasses.field(default_factory=HttpConfig)
   usb_config: UsbConfig = dataclasses.field(default_factory=UsbConfig)
   hislip_config: HiSlipConfig = dataclasses.field(default_factory=HiSlipConfig)
 
-  pyhal_board_interface_type: str = dataclasses.field(init=False)
+  py_lab_hal_board_interface_type: str = dataclasses.field(init=False)
 
   @property
   def name(self) -> str:
@@ -338,9 +338,9 @@ class ConnectConfig(json_dataclass.DataClassJsonCamelMixIn):
       else:
         self._check_visa()
 
-    if self.pyhal_board_ip:
-      self.pyhal_board_interface_type = self.interface_type
-      self.interface_type = 'pyhalboard'
+    if self.py_lab_hal_board_ip:
+      self.py_lab_hal_board_interface_type = self.interface_type
+      self.interface_type = 'pylabhalboard'
 
     logging.info('Interface type: %s', self.interface_type)
 
@@ -379,8 +379,8 @@ class ConnectConfig(json_dataclass.DataClassJsonCamelMixIn):
   def _check_interface_type(self) -> None:
     """Check the interface type is supported."""
 
-    if self.pyhal_board_ip:
-      self.interface_type = 'pyhalboard'
+    if self.py_lab_hal_board_ip:
+      self.interface_type = 'pylabhalboard'
 
     if self.interface_type not in SUPPORT_INTERFACE:
       error_mesg = f'{self.interface_type} is not a valid hw interface!'
@@ -775,7 +775,7 @@ def select(connect_config: ConnectConfig) -> ComInterfaceClass:
     class_name = ''.join(test_name_list)
 
     interface_module = importlib.import_module(
-        '.' + module_name, package='pyhal.cominterface'
+        '.' + module_name, package='py_lab_hal.cominterface'
     )
     logging.info('Selecting %s %s', interface_module, class_name)
     interface_class = getattr(interface_module, class_name)

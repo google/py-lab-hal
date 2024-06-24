@@ -460,7 +460,7 @@ class TektronixMSO(scope.Scope):
   def set_measurement_reference(
       self, low, mid, high, mid2, reference_type, reference_scope, meas_number
   ):
-    # The Global reference here is tracked in PyHAL, not in the scope
+    # The Global reference here is tracked in PyLabHAL, not in the scope
     # This is because Global reference in TekMSO456 does not allow setting for
     # mid2 for delta measurements unlike previous Tek scopes
 

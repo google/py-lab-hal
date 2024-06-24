@@ -12,4 +12,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""__init__ for pyhal_board_client."""
+"""__init__ for py_lab_hal_board_server."""

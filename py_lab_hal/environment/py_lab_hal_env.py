@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""pyhal_env helps the user to create a connection layer to pyhal.
+"""py_lab_hal_env helps the user to create a connection layer to py-lab-hal.
 
-User construct the EnvConfig to config the runtime env that will needs in pyhal
-and provides to the PyhalLayer class. The object of the cominterface,
-dut_interface, and the instrument will be created. Use  get_object function to
-get the object that is in the pyhal layer in this runtime.
+User construct the EnvConfig to config the runtime env that will needs in
+py-lab-hal and provides to the PyLabHALLayer class. The object of the
+cominterface, dut_interface, and the instrument will be created. Use get_object
+function to get the object that is in the py-lab-hal layer in this runtime.
 """
 
 import dataclasses
@@ -32,8 +32,8 @@ from py_lab_hal.util import json_dataclass
 
 
 @dataclasses.dataclass
-class PyhalCom(json_dataclass.DataClassJsonCamelMixIn):
-  """The pyhal cominterface in pyhal env.
+class PyLabHALCom(json_dataclass.DataClassJsonCamelMixIn):
+  """The py-lab-hal cominterface in py-lab-hal env.
 
   Attributes:
       name (str): The name of the cominterface.
@@ -48,8 +48,8 @@ class PyhalCom(json_dataclass.DataClassJsonCamelMixIn):
 
 
 @dataclasses.dataclass
-class PyhalDut(json_dataclass.DataClassJsonCamelMixIn):
-  """The pyhal dut_interface in pyhal env.
+class PyLabHALDut(json_dataclass.DataClassJsonCamelMixIn):
+  """The py-lab-hal dut_interface in py-lab-hal env.
 
   Attributes:
       name (str): The name of the dut_interface.
@@ -61,8 +61,8 @@ class PyhalDut(json_dataclass.DataClassJsonCamelMixIn):
 
 
 @dataclasses.dataclass
-class PyhalInst(json_dataclass.DataClassJsonCamelMixIn):
-  """The pyhal instrument in pyhal env.
+class PyLabHALInst(json_dataclass.DataClassJsonCamelMixIn):
+  """The py-lab-hal instrument in py-lab-hal env.
 
   Attributes:
     name (str): The name of the instrument.
@@ -79,26 +79,28 @@ class PyhalInst(json_dataclass.DataClassJsonCamelMixIn):
 
 @dataclasses.dataclass
 class EnvConfig(json_dataclass.DataClassJsonCamelMixIn):
-  """The env config in pyhal env.
+  """The env config in py-lab-hal env.
 
   Attributes:
-    cominterface (list[PyhalCom]): The list of the pyhal_env cominterface.
-    dut_interface (list[PyhalDut]): The list of the pyhal_env dut_interface.
-    instrument (list[PyhalInst]): The list of the pyhal_env instrument.
+    cominterface (list[PyLabHALCom]): The list of the py_lab_hal_env
+      cominterface.
+    dut_interface (list[PyLabHALDut]): The list of the py_lab_hal_env
+      dut_interface.
+    instrument (list[PyLabHALInst]): The list of the py_lab_hal_env instrument.
   """
 
-  cominterface: list[PyhalCom]
-  dut_interface: list[PyhalDut]
-  instrument: list[PyhalInst]
+  cominterface: list[PyLabHALCom]
+  dut_interface: list[PyLabHALDut]
+  instrument: list[PyLabHALInst]
 
 
 def prepare_com(
-    full_data: list[PyhalCom],
+    full_data: list[PyLabHALCom],
 ) -> dict[str, cominterface.ComInterfaceClass]:
   """Init the cominterface based on the config.
 
   Args:
-      full_data (list[PyhalCom]): The config for cominterface.
+      full_data (list[PyLabHALCom]): The config for cominterface.
 
   Returns:
       dict[str, cominterface.ComInterfaceClass]: The dict for cominterface.
@@ -111,12 +113,12 @@ def prepare_com(
 
 
 def prepare_dut(
-    full_data: list[PyhalDut],
+    full_data: list[PyLabHALDut],
 ) -> dict[str, interface.InterfaceClass]:
   """Init the dut_interface based on the config.
 
   Args:
-      full_data (list[PyhalDut]): The config for dut_interface.
+      full_data (list[PyLabHALDut]): The config for dut_interface.
 
   Returns:
       dict[str, interface.InterfaceClass]: The dict for dut_interface.
@@ -128,20 +130,20 @@ def prepare_dut(
 
 
 def prepare_inst(
-    full_data: list[PyhalInst],
+    full_data: list[PyLabHALInst],
     com_dict: dict[str, cominterface.ComInterfaceClass],
 ) -> dict[str, instrument.Instrument]:
   """Init the Instrument based on the config.
 
   Args:
-      full_data (list[PyhalInst]): The config for Instrument.
+      full_data (list[PyLabHALInst]): The config for Instrument.
       com_dict (dict[str, cominterface.ComInterfaceClass]): The dict for
         cominterface.
 
   Returns:
       dict[str, instrument.Instrument]: The dict for Instrument.
   """
-  build = builder.PyHALBuilder()
+  build = builder.PyLabHALBuilder()
   ans = {}
   for item in full_data:
     build.cominterface = com_dict[item.com_name]
@@ -152,8 +154,8 @@ def prepare_inst(
   return ans
 
 
-class PyhalLayer:
-  """The layer connects to PyHAL."""
+class PyLabHALLayer:
+  """The layer connects to py-lab-hal."""
 
   def __init__(
       self,
@@ -198,14 +200,14 @@ class PyhalLayer:
     ...
 
   def get_object(self, layer_type, name):
-    """Get the object in the pyhal layer.
+    """Get the object in the py-lab-hal layer.
 
     Args:
         layer_type (str): The type of the object.
         name (_type_): The name of the object.
 
     Returns:
-        The object in the pyhal layer.
+        The object in the py-lab-hal layer.
     """
     interface_mapping = {
         'cominterface': self.com,

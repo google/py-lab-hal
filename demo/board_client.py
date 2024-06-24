@@ -22,10 +22,10 @@ from py_lab_hal.cominterface import cominterface
 def main():
   cc = cominterface.ConnectConfig(
       # network=cominterface.NetworkConfig(host='127.0.0.1', port=5025),
-      # pyhal_board_ip='localhost:50051'
-      # pyhal_board_ip='192.168.43.119:50051',
+      # py_lab_hal_board_ip='localhost:50051'
+      # py_lab_hal_board_ip='192.168.43.119:50051',
       visa_resource='/dev/ttyUSB2',
-      pyhal_board_ip='100.85.211.180:50051',
+      py_lab_hal_board_ip='100.85.211.180:50051',
   )
 
   com = cominterface.select(cc)
@@ -35,7 +35,7 @@ def main():
 
   cc1 = cominterface.ConnectConfig(
       visa_resource='/dev/ttyUSB0',
-      pyhal_board_ip='100.85.211.180:50051',
+      py_lab_hal_board_ip='100.85.211.180:50051',
   )
   com1 = cominterface.select(cc1)
   dc = instrument.dcpsu.Keysighte3632a(com1)

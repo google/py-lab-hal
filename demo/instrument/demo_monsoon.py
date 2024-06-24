@@ -21,10 +21,10 @@ from py_lab_hal.instrument.powermeter import monsoon as mon
 from py_lab_hal.instrument.powermeter import powermeter as pm
 
 
-def setup_pyhal():
-  """Setup the pyhal."""
+def setup_py_lab_hal():
+  """Setup the py_lab_hal."""
 
-  build = builder.PyHALBuilder()
+  build = builder.PyLabHALBuilder()
   build.connection_config = cominterface.ConnectConfig(
       interface_type='usb',
       usb_config=cominterface.UsbConfig(
@@ -84,7 +84,7 @@ def periodic_measurements(
 
 
 if __name__ == '__main__':
-  power_monsoon, meas_config = setup_pyhal()
+  power_monsoon, meas_config = setup_py_lab_hal()
   setup_monsoon(power_monsoon)
   simple_measurements(power_monsoon, meas_config)
   periodic_measurements(power_monsoon, meas_config)

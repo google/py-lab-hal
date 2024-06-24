@@ -19,7 +19,7 @@ from google.protobuf import json_format
 from py_lab_hal.cominterface import cominterface
 from py_lab_hal.datagrame import datagrame
 from py_lab_hal.proto import datagrame_pb2  # type: ignore
-from py_lab_hal.proto import pyhal_pb2  # type: ignore
+from py_lab_hal.proto import py_lab_hal_pb2  # type: ignore
 from py_lab_hal.util import json_dataclass
 
 
@@ -32,18 +32,18 @@ GRPC2DATA = {
 
 
 def grpc2com(
-    request: pyhal_pb2.InstRequest,
+    request: py_lab_hal_pb2.InstRequest,
 ) -> cominterface.ConnectConfig:
   mesg_dict = json_format.MessageToDict(
       request, preserving_proto_field_name=True
   )
-  mesg_dict['interface_type'] = mesg_dict['pyhal_board_interface_type']
+  mesg_dict['interface_type'] = mesg_dict['py_lab_hal_board_interface_type']
   return cominterface.ConnectConfig.from_dict(mesg_dict)
 
 
 def com2grpc(connect_config: cominterface.ConnectConfig):
   cc_json: str = connect_config.to_json()
-  request = pyhal_pb2.InstRequest()
+  request = py_lab_hal_pb2.InstRequest()
   return json_format.Parse(cc_json, request, ignore_unknown_fields=True)
 
 
@@ -83,12 +83,12 @@ def _data2grpc(data_g):
   return {filed_name: construct(**data_json)}
 
 
-def data2grpc_send(name: str, data_g) -> pyhal_pb2.SendDataRequest:
-  return pyhal_pb2.SendDataRequest(name=name, **_data2grpc(data_g))
+def data2grpc_send(name: str, data_g) -> py_lab_hal_pb2.SendDataRequest:
+  return py_lab_hal_pb2.SendDataRequest(name=name, **_data2grpc(data_g))
 
 
-def data2grpc_recv(data_g) -> pyhal_pb2.RecvDataResponse:
-  return pyhal_pb2.RecvDataResponse(**_data2grpc(data_g))
+def data2grpc_recv(data_g) -> py_lab_hal_pb2.RecvDataResponse:
+  return py_lab_hal_pb2.RecvDataResponse(**_data2grpc(data_g))
 
 
 def grpc2data(request):

@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Datagram for the pyhal cominterface."""
+"""Datagram for the py-lab-hal cominterface."""
 
 from __future__ import annotations
 
