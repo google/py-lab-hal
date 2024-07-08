@@ -35,11 +35,10 @@ Py-Lab-HAL also supports multiple equipment interfaces:
    1. [Download Here](https://www.ni.com/en/support/downloads/drivers/download.ni-visa.html)
 
 ## Installation
-We currently only offer installing from GitHub. PyPi install coming soon!
+[py-lab-hal](https://pypi.org/project/py-lab-hal/) is on PyPI, and it's installable via pip.
+
 ``` shell
-git clone https://github.com/google/py-lab-hal.git
-cd py-lab-hal
-pip install .
+pip install py-lab-hal
 ```
 For linux users, you will have to run an extra step:
 
