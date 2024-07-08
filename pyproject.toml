@@ -60,7 +60,7 @@ requires = ["setuptools", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-py-modules = ['py_lab_hal']
+packages = ['py_lab_hal']
 
 [tool.pyink]
 pyink = true
