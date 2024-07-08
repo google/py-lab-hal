@@ -51,9 +51,14 @@ def list_resources(out_put_string: io.StringIO, is_win: bool = False) -> None:
 
   out_put_string.write('-----USB-----\n')
 
-  res = usbtmc.list_devices()
-  for item in res:
-    connect(out_put_string, build_resources_id(item))
+  devices = usbtmc.list_devices()
+  res = []
+  for item in devices:
+    resourcce_id = build_resources_id(item)
+    connect(out_put_string, resourcce_id)
+    res.append(resourcce_id)
+
+  return res
 
 
 class Usbtmc(Usb):

@@ -41,8 +41,10 @@ def list_resources(out_put_string: io.StringIO, is_win: bool = False):
   del is_win
   monsoon_protocol = pmapi.USB_protocol()
   out_put_string.write('\n-----Monsoon-----\n')
-  if monsoon_protocol.enumerateDevices():
+  resources = monsoon_protocol.enumerateDevices()
+  if resources:
     out_put_string.write('Detected\n')
+  return resources
 
 
 class Usbmonsoon(usb.Usb):
