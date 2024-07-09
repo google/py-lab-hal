@@ -57,8 +57,6 @@ def list_resources(out_put_string: io.StringIO, is_win: bool = False):
     except pyvisa.errors.VisaIOError:
       out_put_string.write('Unknown Devices\n')
 
-  return ins_list
-
 
 class Visa(cominterface.ComInterfaceClass):
   """Child ComInterfaceClass Module of visa."""

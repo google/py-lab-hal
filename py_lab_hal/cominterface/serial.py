@@ -28,14 +28,9 @@ def resources_name(port: str, is_win: bool):
 
 def list_resources(out_put_string: io.StringIO, is_win: bool = False):
   out_put_string.write('\n-----Serial-----\n')
-
-  res = []
   for port, desc, hwid in list_ports.comports():
     out_put_string.write(resources_name(port, is_win))
     out_put_string.write(f'{desc} {hwid}\n')
-    res.append(port)
-
-  return res
 
 
 class Serial(cominterface.ComInterfaceClass):

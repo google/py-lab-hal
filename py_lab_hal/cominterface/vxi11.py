@@ -38,18 +38,13 @@ def list_resources(out_put_string: io.StringIO, is_win: bool = False) -> None:
 
   out_put_string.write('\n-----VXI-----\n')
 
-  res = []
-
   for name, interface in ifcfg.interfaces().items():
     for addr in interface['broadcasts']:
       if addr:
         out_put_string.write(f'Send Scan on {name}, {addr}\n')
-        devices = vxi11.list_devices(ip=addr)
-        for item in devices:
+        res = vxi11.list_devices(ip=addr)
+        for item in res:
           vxi_connect(out_put_string, item)
-          res.append(item)
-
-  return res
 
 
 class Vxi11(cominterface.ComInterfaceClass):

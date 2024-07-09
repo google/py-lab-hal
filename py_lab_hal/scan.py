@@ -26,27 +26,23 @@ from py_lab_hal.cominterface import vxi11
 IS_WIN = platform.system() == 'Windows'
 
 
-def main() -> tuple[str, list[str], list[str]]:
+def main() -> str:
   """The main entry point of the scan."""
   data = io.StringIO()
 
-  serial_resource = []
-  network_resource = []
-
-  serial_resource += usbmonsoon.list_resources(data, IS_WIN)
+  usbmonsoon.list_resources(data, IS_WIN)
 
   if IS_WIN:
-    serial_resource += visa.list_resources(data, IS_WIN)
+    visa.list_resources(data, IS_WIN)
   else:
-    serial_resource += usbtmc.list_resources(data, IS_WIN)
+    usbtmc.list_resources(data, IS_WIN)
 
-    network_resource += vxi11.list_resources(data, IS_WIN)
+    vxi11.list_resources(data, IS_WIN)
 
-  serial_resource += serial.list_resources(data, IS_WIN)
+  serial.list_resources(data, IS_WIN)
 
-  return data.getvalue(), serial_resource, network_resource
+  return data.getvalue()
 
 
 if __name__ == '__main__':
-  resource_string, _, _ = main()
-  print(resource_string)
+  print(main())
