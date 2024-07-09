@@ -37,12 +37,14 @@ Py-Lab-HAL also supports multiple equipment interfaces:
 ## Installation
 [py-lab-hal](https://pypi.org/project/py-lab-hal/) is on PyPI, and it's installable via pip.
 
-``` shell
+```shell
 pip install py-lab-hal
 ```
 For linux users, you will have to run an extra step:
 
-`echo "SUBSYSTEM==\"usb\", MODE=\"0666\", GROUP=\"usbusers\"" | sudo tee -a /etc/udev/rules.d/99-usbusers.rules`
+```shell
+echo "SUBSYSTEM==\"usb\", MODE=\"0666\", GROUP=\"usbusers\"" | sudo tee -a /etc/udev/rules.d/99-usbusers.rules
+```
 
 to configure your USB device access or you won't be able to see instruments over
 an USB connection. You might have to restart the computer after entering the
@@ -62,7 +64,7 @@ test equipment.
 ## Creating the Builder
 Creating the `builder` is a simple one-liner:
 
-```
+```python
 build = builder.PyLabHALBuilder()
 ```
 ## Configuring the cominterface
@@ -78,8 +80,7 @@ This will scan and list out all the visa_resources available to your system.
 
 ### Configuring USB and VXI-11
 An USB or VXI-11 connection is straight-forward,
-just fill in the `visa_resource` you need
-:
+just fill in the `visa_resource` you need:
 ```python
 build.connection_config = cominterface.ConnectConfig(
     visa_resource='USB0::10893::769::MY59006118::0::INSTR',

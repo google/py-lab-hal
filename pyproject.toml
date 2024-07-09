@@ -14,7 +14,7 @@
 
 [project]
 name = "py-lab-hal"
-version = "2.2.20240701"
+version = "2.3.20240715"
 description = "A test instrument Hardware Abstraction Layer (HAL)"
 readme = "README.md"
 requires-python = ">=3.9, <3.12"
