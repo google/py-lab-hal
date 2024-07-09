@@ -16,30 +16,36 @@
 
 import io
 import platform
-
 from py_lab_hal.cominterface import serial
 from py_lab_hal.cominterface import usbmonsoon
 from py_lab_hal.cominterface import usbtmc
 from py_lab_hal.cominterface import visa
 from py_lab_hal.cominterface import vxi11
 
+
 IS_WIN = platform.system() == 'Windows'
+
+
+def scan_resources(string_io: io.StringIO):
+  """The helper for scanning resources."""
+
+  usbmonsoon.list_resources(string_io, IS_WIN)
+
+  if IS_WIN:
+    visa.list_resources(string_io, IS_WIN)
+  else:
+    usbtmc.list_resources(string_io, IS_WIN)
+
+    vxi11.list_resources(string_io, IS_WIN)
+
+  serial.list_resources(string_io, IS_WIN)
 
 
 def main() -> str:
   """The main entry point of the scan."""
   data = io.StringIO()
 
-  usbmonsoon.list_resources(data, IS_WIN)
-
-  if IS_WIN:
-    visa.list_resources(data, IS_WIN)
-  else:
-    usbtmc.list_resources(data, IS_WIN)
-
-    vxi11.list_resources(data, IS_WIN)
-
-  serial.list_resources(data, IS_WIN)
+  scan_resources(data)
 
   return data.getvalue()
 
