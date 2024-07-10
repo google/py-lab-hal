@@ -13,6 +13,8 @@
 # limitations under the License.
 """Scope implementation for Acute MSO 3000x models."""
 
+from __future__ import annotations
+
 import collections
 import pathlib
 

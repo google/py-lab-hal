@@ -20,6 +20,8 @@ The origin is located at (X, Y, Z) = (0, 0, 0).
 Use G-Code control commands.
 """
 
+from __future__ import annotations
+
 import enum
 import logging
 import re

@@ -21,6 +21,8 @@ Position (X, Y, Z, A, B) = (0, 0, 0, 0, 0)  is set to be the origin position.
 The origin is located at the top left corner.
 """
 
+from __future__ import annotations
+
 import enum
 import logging
 import os

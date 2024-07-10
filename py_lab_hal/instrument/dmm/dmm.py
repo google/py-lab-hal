@@ -14,6 +14,8 @@
 
 """Parent Abstract Module of DMM."""
 
+from __future__ import annotations
+
 import abc
 
 from py_lab_hal.instrument import instrument
