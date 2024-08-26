@@ -23,6 +23,7 @@ from py_lab_hal.cominterface import cominterface
 from py_lab_hal.instrument import instrument
 from py_lab_hal.instrument.arm import arm
 from py_lab_hal.instrument.battery_emulator import battery_emulator
+from py_lab_hal.instrument.color_meter import color_meter
 from py_lab_hal.instrument.dcpsu import dcpsu
 from py_lab_hal.instrument.dmm import dmm
 from py_lab_hal.instrument.eload import eload
@@ -129,6 +130,10 @@ class SpectroRadioMeter(str, util.PyLabHalEnum):
   KONICA_CS2000 = 'spectro_radio_meter.konica_cs3000.KonicaCs3000'
 
 
+class ColorMeter(str, util.PyLabHalEnum):
+  ADMESY_HYPERION = 'color_meter.admesy_hyperion.AdmesyHyperion'
+
+
 class StepperMotor(str, util.PyLabHalEnum):
   THORLABS_HDR50 = 'stepper_motor.thorlabs_hdr50.ThorlabsHdr50'
 
@@ -170,6 +175,7 @@ class _InstrumentEnum(util.PyLabHalEnum):
   SPECTRO_RADIO_METER = SpectroRadioMeter
   STEPPER_MOTOR = StepperMotor
   TEMP_CHAMBER = TempChamber
+  COLOR_METER = ColorMeter
 
   @classmethod
   def get_inst(cls, attr):
@@ -248,6 +254,12 @@ class PyLabHALBuilder:
   def build_instrument(
       self, instrument_model: SpectroRadioMeter
   ) -> spectro_radio_meter.SpectroRadioMeter:
+    ...
+
+  @overload
+  def build_instrument(
+      self, instrument_model: ColorMeter
+  ) -> color_meter.ColorMeter:
     ...
 
   @overload
