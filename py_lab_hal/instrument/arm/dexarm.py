@@ -47,15 +47,7 @@ class Dexarm(arm.Arm):
       inst_config: instrument.InstrumentConfig,
   ) -> None:
     super().__init__(com, inst_config)
-    self.state = {
-        'X': 0.0,
-        'Y': 0.0,
-        'Z': 0.0,
-        'E': 0.0,
-        'A': 0.0,
-        'B': 0.0,
-        'C': 0.0,
-    }
+    self.reset_state()
     self.time_out = 10
 
   def __send(self, cmd: str, wait: bool = True):
@@ -78,6 +70,17 @@ class Dexarm(arm.Arm):
   def wait(self) -> None:
     """Wait until previous operation finish."""
     self.__send('M400')
+
+  def reset_state(self):
+    self.state = {
+        'X': 0.0,
+        'Y': 0.0,
+        'Z': 0.0,
+        'E': 0.0,
+        'A': 0.0,
+        'B': 0.0,
+        'C': 0.0,
+    }
 
   def get_state(self) -> dict[str, float]:
     """Return arm's current state."""
@@ -119,7 +122,7 @@ class Dexarm(arm.Arm):
     cmd += axis_command('E', e)
     return cmd
 
-  def abs_move_to(
+  def absolute_move_to(
       self,
       x: float | None = None,
       y: float | None = None,
@@ -132,7 +135,7 @@ class Dexarm(arm.Arm):
     self.__send(cmd)
     self.update_state()
 
-  def rel_move_to(
+  def relative_move_to(
       self,
       x: float = 0,
       y: float = 0,

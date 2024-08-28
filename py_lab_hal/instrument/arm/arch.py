@@ -59,6 +59,14 @@ class Arch(arm.Arm):
       inst_config: instrument.InstrumentConfig,
   ) -> None:
     super().__init__(com, inst_config)
+    self.reset_state()
+
+  def get_state(self) -> dict[str, float]:
+    """Return arm's current state."""
+    logging.info(self.state)
+    return self.state
+
+  def reset_state(self):
     self.state = {
         'X': 0.0,
         'Y': 0.0,
@@ -67,11 +75,6 @@ class Arch(arm.Arm):
         'B': 0.0,
         'J': 0.0,
     }
-
-  def get_state(self) -> dict[str, float]:
-    """Return arm's current state."""
-    logging.info(self.state)
-    return self.state
 
   def update_state(self) -> None:
     cur_pos = self.get_current_position()
@@ -106,7 +109,7 @@ class Arch(arm.Arm):
     cmd += axis_command('B', b)
     return cmd
 
-  def abs_move_to(
+  def absolute_move_to(
       self,
       x: float | None = None,
       y: float | None = None,
@@ -119,7 +122,7 @@ class Arch(arm.Arm):
     self.update_state()
     logging.info(recv_data)
 
-  def rel_move_to(
+  def relative_move_to(
       self,
       x: float = 0,
       y: float = 0,

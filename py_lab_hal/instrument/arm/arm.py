@@ -28,8 +28,8 @@ class Arm(instrument.Instrument, metaclass=abc.ABCMeta):
       com: cominterface.ComInterfaceClass,
       inst_config: instrument.InstrumentConfig,
   ) -> None:
-    super().__init__(com, inst_config)
     self.state = {}
+    super().__init__(com, inst_config)
 
   def open_instrument(self):
     super().open_instrument()
