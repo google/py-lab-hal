@@ -101,9 +101,6 @@ jobs = 'auto'
 # Paths to source code directories, separated by ':'.
 pythonpath = '.'
 
-# Python version (major.minor) of the target code.
-python_version = '3.11'
-
 # Space-separated list of error names to ignore.
 disable = ['pyi-error']
 
