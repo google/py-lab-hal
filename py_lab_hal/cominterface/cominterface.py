@@ -508,20 +508,27 @@ class BytesBuffer:
         key (bytes): The pattern that wanted to search.
 
     Returns:
-        bool: The result if the pattern is in the buffer.
+        bytearray: The result if the pattern is in the buffer.
     """
     while self.search_index < len(self._buf):
-      if self._buf[self.search_index] == key[self.target_index]:
-        self.target_index += 1
-      else:
-        self.target_index = 0
+      if self._buf[self.search_index :].startswith(key):
+        return self.get(self.search_index + len(key))
 
       self.search_index += 1
-
-      if self.target_index == len(key):
-        return self.get(self.search_index)
-
     return None
+
+  def clean(self, target_term: bytes) -> None:
+    """Clean up all consecutive target terminator at the beginning of the buffer.
+
+    Args:
+        target_term (bytes): The end terminator.
+    """
+    while self.search_index < len(self._buf):
+      if not self._buf[self.search_index :].startswith(target_term):
+        self.reset_index()
+        return
+
+      self.get(len(target_term))
 
 
 class DataHandler:

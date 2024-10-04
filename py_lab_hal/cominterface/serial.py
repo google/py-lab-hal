@@ -74,12 +74,15 @@ class Serial(cominterface.ComInterfaceClass):
     while True:
       if size > 0:
         if len(self.buf) >= size:
-          return bytes(self.buf.get(size))
+          ans = self.buf.get(size)
+          self.buf.clean(end_term)
+          return bytes(ans)
       else:
         ans = self.buf.search(end_term)
         if ans is not None:
+          self.buf.clean(end_term)
           return bytes(ans)
-      self.buf.put(self._serial.read())
+      self.buf.put(self._serial.read(self._serial.in_waiting))
 
   def _query(self, data, size) -> bytes:
     self.send_raw(data)
