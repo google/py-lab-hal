@@ -25,8 +25,8 @@ class JadakPr670(spectro_radio_meter.SpectroRadioMeter):
       self, data: bytes = b'', size: int = -1
   ) -> datagram.OneByOneBytesDatagram:
     return datagram.OneByOneBytesDatagram(
-        self.inst.connect_config.terminator.read.encode(),
-        self.inst.connect_config.terminator.write.encode(),
+        self.data_handler.interface.connect_config.terminator.read.encode(),
+        self.data_handler.interface.connect_config.terminator.write.encode(),
         data,
         size,
     )

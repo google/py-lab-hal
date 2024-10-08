@@ -48,7 +48,9 @@ class TestTektronixMSO456:
         'LECROY,HDO6104A-MS,LCRY4068N53330,9.1.0'
     )
     TestTektronixMSO456.instrument.open_instrument()
-    TestTektronixMSO456.com = TestTektronixMSO456.instrument.inst
+    TestTektronixMSO456.com = (
+        TestTektronixMSO456.instrument.data_handler.interface
+    )
     yield
 
   def test_set_channel_position(self):

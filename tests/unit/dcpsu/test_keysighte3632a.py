@@ -42,7 +42,9 @@ class TestKeysighte3632a:
         builder.DCPowerSupply.KEYSIGHT_E3632A
     )
     TestKeysighte3632a.instrument.open_instrument()
-    TestKeysighte3632a.com = TestKeysighte3632a.instrument.inst
+    TestKeysighte3632a.com = (
+        TestKeysighte3632a.instrument.data_handler.interface
+    )
     yield
 
   @pytest.mark.parametrize('channel, enable', [(1, True), (1, False)])

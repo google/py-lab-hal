@@ -866,7 +866,7 @@ class TektronixMSO(scope.Scope):
   def _read_file(self, file: str):
     self.data_handler.send(f'FILESystem:READFile "{file}"')
 
-    if self.inst.connect_config.interface_type == 'socket':
+    if self.data_handler.interface.connect_config.interface_type == 'socket':
       self.data_handler.send('!r')
 
   def save_file(self, file_name: str, path: str, file_type: str = ''):

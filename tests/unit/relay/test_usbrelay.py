@@ -36,7 +36,7 @@ class TestUsbrelay:
     build.instrument_config.reset = False
     build.instrument_config.idn = False
     TestUsbrelay.instrument = build.build_instrument(builder.Relay.USBRELAY)
-    TestUsbrelay.com = TestUsbrelay.instrument.inst
+    TestUsbrelay.com = TestUsbrelay.instrument.data_handler.interface
     yield
 
   def test_set_channel_position(self):

@@ -43,7 +43,9 @@ class TestKeysightn6705c:
         builder.DCPowerSupply.KEYSIGHT_N6705C
     )
     TestKeysightn6705c.instrument.open_instrument()
-    TestKeysightn6705c.com = TestKeysightn6705c.instrument.inst
+    TestKeysightn6705c.com = (
+        TestKeysightn6705c.instrument.data_handler.interface
+    )
     yield
 
   @pytest.mark.parametrize('channel, enable', [(1, True), (1, False)])

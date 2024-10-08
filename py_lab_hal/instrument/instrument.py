@@ -270,8 +270,7 @@ class Instrument:
         inst_config (InstrumentConfig): The config for instrument
     """
 
-    self.inst = com
-    self.data_handler = cominterface.DataHandler(self.inst)
+    self.data_handler = cominterface.DataHandler(com)
     self.inst_config = inst_config
 
     if self.inst_config.auto_init:
@@ -283,7 +282,7 @@ class Instrument:
 
   def open_instrument(self):
     """Open the instrument and open the interface if needed."""
-    if not self.inst.enable:
+    if not self.data_handler.interface.enable:
       self.open_interface()
 
     logging.info('Opening Instrument')
@@ -299,7 +298,7 @@ class Instrument:
 
   def open_interface(self):
     logging.info('Instrument Opening Interface')
-    self.inst.open()
+    self.data_handler.interface.open()
 
   def self_test(self) -> None:
     """Send to self test command to the instrument."""
@@ -322,7 +321,7 @@ class Instrument:
 
   def close(self) -> None:
     """Call the close command of cominterface."""
-    self.inst.close()
+    self.data_handler.interface.close()
 
   def reset(self) -> None:
     """Resets instrument to factory default state."""

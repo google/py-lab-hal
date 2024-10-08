@@ -42,7 +42,7 @@ class TestAgilent34410a:
         builder.DMM.AGILENT_34410A
     )
     TestAgilent34410a.instrument.open_instrument()
-    TestAgilent34410a.com = TestAgilent34410a.instrument.inst
+    TestAgilent34410a.com = TestAgilent34410a.instrument.data_handler.interface
 
   def test_read(self) -> None:
     self.com.push_recv_queue(b'10')

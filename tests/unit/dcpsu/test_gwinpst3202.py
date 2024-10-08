@@ -42,7 +42,7 @@ class TestGwinpst3202:
         builder.DCPowerSupply.GWIN_PST3202
     )
     TestGwinpst3202.instrument.open_instrument()
-    TestGwinpst3202.com = TestGwinpst3202.instrument.inst
+    TestGwinpst3202.com = TestGwinpst3202.instrument.data_handler.interface
     yield
 
   @pytest.mark.parametrize('channel, enable', [(1, True), (1, False)])

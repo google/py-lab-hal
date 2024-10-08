@@ -47,7 +47,7 @@ class TestLecroyMAUI:
     )
     TestLecroyMAUI.instrument.idn = 'LECROY,HDO6104A-MS,LCRY4068N53330,9.1.0'
     TestLecroyMAUI.instrument.open_instrument()
-    TestLecroyMAUI.com = TestLecroyMAUI.instrument.inst
+    TestLecroyMAUI.com = TestLecroyMAUI.instrument.data_handler.interface
     yield
 
   def test_set_channel_position(self):

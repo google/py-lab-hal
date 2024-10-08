@@ -38,7 +38,7 @@ class WebPowerSwitch(remote_power_switch.RemotePowerSwitch):
     else:
       state = 'false'
 
-    url = self.inst.connect_config.http_config.url
+    url = self.data_handler.interface.connect_config.http_config.url
     msg = f'http://{url}/restapi/relay/outlets/{channel-1}/state/'
     dg = datagram.HttpDatagram(
         url=msg,

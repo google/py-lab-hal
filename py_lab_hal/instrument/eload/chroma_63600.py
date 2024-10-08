@@ -113,7 +113,7 @@ class Chroma63600(eload.Eload):
   def open_interface(self):
     super().open_interface()
     # We need to set to remote mode first, so don't run init options here
-    self.inst.send_raw(b'SYSTem:REMote')
+    self.data_handler.interface.send_raw(b'SYSTem:REMote')
 
   def _check_channel_number(self):
     # Find the max number of channels

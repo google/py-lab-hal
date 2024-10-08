@@ -87,18 +87,18 @@ class DigipduZdhx(remote_power_switch.RemotePowerSwitch):
     else:
       state = STATE.OFF
 
-    if isinstance(self.inst, serial.Serial):
+    if isinstance(self.data_handler.interface, serial.Serial):
       msg = prepare_serial_command(channel, state)
       self.data_handler.send_raw(msg)
-    elif isinstance(self.inst, http.Http):
-      self.inst.auth()
-      url = self.inst.connect_config.http_config.url
+    elif isinstance(self.data_handler.interface, http.Http):
+      self.data_handler.interface.auth()
+      url = self.data_handler.interface.connect_config.http_config.url
       msg = f'http://{url}/out_ctrl.csp?port={channel}&ctrl_kind={state}'
       dg = datagram.HttpDatagram(url=msg, method='get')
       self.data_handler.send_dataram(dg)
     else:
       raise RuntimeError(
           'The selected interface:'
-          f' {self.inst.connect_config.interface_type} is not supported. Please'
-          ' use serial or http'
+          f' {self.data_handler.interface.connect_config.interface_type} is not'
+          ' supported. Please use serial or http'
       )

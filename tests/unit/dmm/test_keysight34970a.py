@@ -42,7 +42,9 @@ class TestKeysight34970a:
         builder.DMM.AGILENT_34410A
     )
     TestKeysight34970a.instrument.open_instrument()
-    TestKeysight34970a.com = TestKeysight34970a.instrument.inst
+    TestKeysight34970a.com = (
+        TestKeysight34970a.instrument.data_handler.interface
+    )
 
   # def config_autozero(self, auto_zero_func, channel, enable: bool):
   #   pass

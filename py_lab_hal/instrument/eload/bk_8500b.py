@@ -51,7 +51,7 @@ class Bk8500b(eload.Eload):
   def open_interface(self):
     super().open_interface()
     # We need to set to remote mode first, so don't run init options here
-    self.inst.send_raw(b'SYSTem:REMote')
+    self.data_handler.interface.send_raw(b'SYSTem:REMote')
 
   def short_output(self, channel, enable) -> None:
     self.data_handler.send(f'INPut:SHORt {int(enable)}')
