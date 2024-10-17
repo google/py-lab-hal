@@ -72,6 +72,7 @@ class Serial(cominterface.ComInterfaceClass):
   def _recv(self, size) -> bytes:
     end_term = self.connect_config.terminator.read.encode()
     while True:
+      self.buf.put(self._serial.read(self._serial.in_waiting))
       if size > 0:
         if len(self.buf) >= size:
           ans = self.buf.get(size)
@@ -82,7 +83,10 @@ class Serial(cominterface.ComInterfaceClass):
         if ans is not None:
           self.buf.clean(end_term)
           return bytes(ans)
-      self.buf.put(self._serial.read(self._serial.in_waiting))
+      read_back = self._serial.read()
+      if not read_back:
+        raise TimeoutError('Serial read timeout')
+      self.buf.put(read_back)
 
   def _query(self, data, size) -> bytes:
     self.send_raw(data)
