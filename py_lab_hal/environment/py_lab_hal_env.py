@@ -43,7 +43,7 @@ class PyLabHALCom(json_dataclass.DataClassJsonCamelMixIn):
   name: str
   config: cominterface.ConnectConfig
 
-  def __post__init__(self) -> None:
+  def __post_init__(self) -> None:
     self.config.__post_init__()
 
 
