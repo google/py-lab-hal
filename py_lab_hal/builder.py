@@ -146,7 +146,7 @@ class TempChamber(str, util.PyLabHalEnum):
 
 def extract_instrument_name(instrument_model: str) -> re.Match[str]:
   result = re.search(
-      r'(?P<categories>[a-zA-z0-9_]+).(?P<module>[a-zA-z0-9_]+)(.(?P<class_name>[a-zA-z0-9_]+))?',
+      r'(?P<categories>[a-zA-Z0-9_]+).(?P<module>[a-zA-Z0-9_]+)(.(?P<class_name>[a-zA-Z0-9_]+))?',
       instrument_model,
   )
   if not result:
