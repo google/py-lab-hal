@@ -234,6 +234,18 @@ class ValueRange(str, util.InstrumentEnum):
   DEFFULT = enum.auto()
 
 
+class FunctionType(str, util.InstrumentEnum):
+  SIN = enum.auto()
+  SQU = enum.auto()
+  TRI = enum.auto()
+  RAMP = enum.auto()
+  PULS = enum.auto()
+  PRBS = enum.auto()
+  MOIS = enum.auto()
+  ARB = enum.auto()
+  DC = enum.auto()
+
+
 @dataclasses.dataclass
 class InstrumentConfig(json_dataclass.DataClassJsonCamelMixIn):
   """The config for instrument.

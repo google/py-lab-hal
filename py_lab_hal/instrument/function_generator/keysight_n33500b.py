@@ -14,6 +14,7 @@
 
 """Child FunctionGenerator Module of Keysightn33500b."""
 
+from py_lab_hal.instrument import instrument
 from py_lab_hal.instrument.function_generator import function_generator
 
 
@@ -30,19 +31,34 @@ class KeysightN33500b(function_generator.FunctionGenerator):
       self, channel, function, frequency, amplitude, offset, phase
   ):
     self.data_handler.send(
-        f'SOUR{channel}:APPL:{function} {frequency},{amplitude},{offset}'
+        f'SOUR{channel}:APPL:{function.value} {frequency},{amplitude},{offset}'
     )
-    if function != 'DC':
-      self.data_handler.send(f'SOUR{channel}:PHAS {phase}')
+    if function != instrument.FunctionType.DC:
+      self.set_output_phase(channel, phase)
 
-  def enable_output(self, channel, enable=True, output_impedance='DEF'):
+  def enable_output(self, channel, enable):
     self.data_handler.send(f'OUTP{channel} {int(enable)}')
-    self.data_handler.send(f'OUTP{channel}:LOAD {output_impedance}')
-
-  def set_duty_cycle(self, channel, waveform, freq, amp, dc_offset, duty_cycle):
-    pass
 
   def set_STD_waveform(
       self, channel, waveform, freq, amp, dc_offset, duty_cycle
   ):
     pass
+
+  def set_output_function(self, channel, function):
+    self.data_handler.send(f'SOUR{channel}:FUNCtion {function.value}')
+
+  def set_output_voltage(self, channel, amplitude, offset):
+    self.data_handler.send(f'SOUR{channel}:VOLTage {amplitude}')
+    self.data_handler.send(f'SOUR{channel}:VOLTage:OFFSet {offset}')
+
+  def set_output_frequency(self, channel, frequency):
+    self.data_handler.send(f'SOUR{channel}:FREQuency {frequency}')
+
+  def set_output_phase(self, channel, degree):
+    self.data_handler.send(f'SOUR{channel}:PHASe {degree}')
+
+  def set_output_impedance(self, channel, impedance):
+    self.data_handler.send(f'SOUR{channel}:LOAD {impedance}')
+
+  def set_output_duty_cycle(self, channel, function, percent):
+    self.data_handler.send(f'SOUR{channel}:FUNCtion:{function.value} {percent}')

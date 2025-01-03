@@ -27,14 +27,16 @@ class FunctionGenerator(instrument.Instrument, metaclass=abc.ABCMeta):
     """Configures the Output signal Sync out with Channel and Selected which Type of Trigger Slpoe.
 
     Args:
-        channel (int): The specified output channel.
+      channel (int): The specified output channel.
       trigger (str):
       enable (bool):
     """
     pass
 
   @abc.abstractmethod
-  def configure_trigger(self, channel, delay, timer, trigger_source, slope):
+  def configure_trigger(
+      self, channel: int, delay, timer, trigger_source, slope
+  ):
     """Configures the trigger source.
 
     Count, delay and slop for triggering arbitrary sequence,
@@ -50,51 +52,98 @@ class FunctionGenerator(instrument.Instrument, metaclass=abc.ABCMeta):
     pass
 
   @abc.abstractmethod
-  def enable_output(
-      self, channel, output_impedance, voltage_limit, enable: bool
-  ):
-    """Configure output impedance, voltage limitation, and enable for specified channel.
+  def enable_output(self, channel: int, enable: bool):
+    """Configure enable for specified channel.
 
     Args:
         channel (int): The specified output channel.
-        output_impedance (float):
-        voltage_limit (float):
         enable (bool):
     """
     pass
 
-  @abc.abstractmethod
-  def set_duty_cycle(self, channel, waveform, freq, amp, dc_offset, duty_cycle):
-    """Sets duty cycle parameters for square waveform.
+  def configure_duty_cycle(
+      self,
+      channel: int,
+      function,
+      frequency: float,
+      amplitude: float,
+      offset: float,
+      duty_cycle: float,
+  ):
+    """configure function with duty cycle parameters.
 
     Args:
         channel (int): The specified output channel.
-        waveform (TYPE):
-        freq (float):
-        amp (float):
-        dc_offset (float):
+        function (TYPE):
+        frequency (float):
+        amplitude (float):
+        offset (float):
         duty_cycle (float):
     """
-    pass
+    self.set_output_function(channel, function)
+    self.set_output_frequency(channel, frequency)
+    self.set_output_voltage(channel, amplitude, offset)
+    self.set_output_duty_cycle(channel, function, duty_cycle)
 
   @abc.abstractmethod
   def set_STD_waveform(
-      self, channel, waveform, freq, amp, dc_offset, duty_cycle
+      self,
+      channel: int,
+      function,
+      frequency: float,
+      amplitude: float,
+      offset: float,
+      duty_cycle: float,
   ):
     """Summary.
 
     Args:
         channel (int): The specified output channel.
-        waveform (TYPE):
-        freq (float):
-        amp (float):
-        dc_offset (float):
+        function (TYPE):
+        frequency (float):
+        amplitude (float):
+        offset (float):
         duty_cycle (float):
     """
     pass
 
   @abc.abstractmethod
   def configure_output(
-      self, channel, function, frequency, amplitude, offset, phase
+      self,
+      channel: int,
+      function: instrument.FunctionType,
+      frequency: float,
+      amplitude: float,
+      offset: float,
+      phase: float,
+  ):
+    pass
+
+  @abc.abstractmethod
+  def set_output_function(self, channel, function: instrument.FunctionType):
+    pass
+
+  @abc.abstractmethod
+  def set_output_voltage(self, channel: int, amplitude: float, offset: float):
+    pass
+
+  @abc.abstractmethod
+  def set_output_frequency(self, channel: int, frequency: float):
+    pass
+
+  @abc.abstractmethod
+  def set_output_phase(self, channel: int, degree: float):
+    pass
+
+  @abc.abstractmethod
+  def set_output_impedance(self, channel: int, impedance: float):
+    pass
+
+  @abc.abstractmethod
+  def set_output_duty_cycle(
+      self,
+      channel: int,
+      function,
+      percent: float,
   ):
     pass

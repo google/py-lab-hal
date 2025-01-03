@@ -16,19 +16,32 @@
 
 from py_lab_hal import builder
 from py_lab_hal.cominterface import cominterface
+from py_lab_hal.instrument import instrument
 
 
 def main() -> None:
   build = builder.PyLabHALBuilder()
   build.connection_config = cominterface.ConnectConfig(
-      visa_resource='USB0::2391::11271::MY59000806::0::INSTR',
+      visa_resource='USB::2391::11271::MY59000806::INSTR',
   )
 
   fg = build.build_instrument(builder.FunctionGenerator.KEYSIGHT_N33500B)
 
   try:
-    fg.configure_output(1, 'SQU', 1e3, 5, 2.5, 0)
-    fg.configure_output(2, 'SQU', 1e4, 5, 0, 90)
+    fg.configure_output(
+        1,
+        instrument.FunctionType.SIN,
+        1e3,
+        5,
+        2.5,
+        0,
+    )
+
+    fg.set_output_function(2, instrument.FunctionType.SQU)
+    fg.set_output_frequency(2, 1e4)
+    fg.set_output_voltage(2, 5, 0)
+    fg.set_output_phase(2, 90)
+
     fg.enable_output(1, True)
     fg.enable_output(2, True)
   finally:
