@@ -40,10 +40,6 @@ class MatchError(ValueError):
 class Plz205w(eload.Eload):
   """Child eload Class of PLZ205w."""
 
-
-class Bk8500b(eload.Eload):
-  """Child eload Class of Bk8500b."""
-
   mode_cmd = {
       instrument.ChannelMode.CURRENT_DC: 'CURRent',
       instrument.ChannelMode.VOLTAGE_DC: 'VOLTage',

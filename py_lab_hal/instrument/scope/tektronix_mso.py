@@ -882,6 +882,7 @@ class TektronixMSO(scope.Scope):
     png_dg = self.data_handler.recv_dataram(datagram.PngDatagram())
     with open(path, 'wb+') as f:
       f.write(png_dg.data)
+    self.data_handler.recv()
 
   def auto_set(self):
     self.data_handler.send('AUTOset')

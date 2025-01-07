@@ -41,8 +41,8 @@ POSITIVE_CURRENT = [
 NEGATIVE_CURRENT = [instrument.SmuEmulationMode.CCLOAD]
 
 CHANNEL_MODE = {
-    instrument.ChannelMode.VOLTAGE_DC: 'VOLTage:DC',
-    instrument.ChannelMode.CURRENT_DC: 'CURRent:DC',
+    instrument.ChannelMode.VOLTAGE_DC: 'VOLTage',
+    instrument.ChannelMode.CURRENT_DC: 'CURRent',
     instrument.ChannelMode.RESISTANCE: 'RESistance',
     instrument.ChannelMode.RESISTANCE_4WIRE: 'RESistance',
 }
@@ -88,7 +88,7 @@ class KeysightN6705c(instrument.Instrument):
       channel: int,
       mode: instrument.SmuEmulationMode = instrument.SmuEmulationMode.BATTERY,
   ):
-    self.data_handler.send(f'EMULation {mode},(@{channel})')
+    self.data_handler.send(f'EMULation {mode.value},(@{channel})')
 
   def set_level(
       self,
@@ -104,7 +104,7 @@ class KeysightN6705c(instrument.Instrument):
   # The function for the Instrument
 
   def set_priority(self, channel: int, priority: instrument.ChannelMode):
-    self.data_handler.send(f'FUNC {priority}, (@{channel})')
+    self.data_handler.send(f'FUNC {priority.value}, (@{channel})')
     self.priority = priority
 
   def enable_output(self, channel, enable):
