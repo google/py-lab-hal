@@ -27,9 +27,9 @@ def main() -> None:
   arm = build.build_instrument(builder.Arm.DEXARM)
 
   try:
-    arm.move_to_origin()  # (0, 300, 0)
-    arm.abs_move_to(x=100, y=400)  # (100. 400, 0)
-    arm.rel_move_to(x=-100, y=-100)  # (0, 300, 0)
+    arm.move_to_origin()  # (0, 0, 0)
+    arm.absolute_move_to(x=0, y=50)  # (0, 50, 0)
+    arm.relative_move_to(x=-100, y=-100)  # (-100, -50, 0)
     arm.get_state()
   finally:
     arm.close()

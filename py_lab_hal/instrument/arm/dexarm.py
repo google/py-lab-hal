@@ -32,6 +32,7 @@ from py_lab_hal.instrument import instrument
 from py_lab_hal.instrument.arm import arm
 
 Y_OFFSET = 300.0
+TIMEOUT = 10
 
 
 class Dexarm(arm.Arm):
@@ -48,7 +49,6 @@ class Dexarm(arm.Arm):
   ) -> None:
     super().__init__(com, inst_config)
     self.reset_state()
-    self.time_out = 10
 
   def __send(self, cmd: str, wait: bool = True):
     """Send command to arm.
@@ -61,7 +61,7 @@ class Dexarm(arm.Arm):
     if not wait:
       return
     cur_time = time.time()
-    while time.time() < cur_time + self.time_out:
+    while time.time() < cur_time + TIMEOUT:
       recv_data = self.data_handler.recv()
       if recv_data and recv_data.find('ok') >= 0:
         return
@@ -161,7 +161,7 @@ class Dexarm(arm.Arm):
     coor = [i for i in self.state]
     cur_pos = {i: 0.0 for i in coor}
     cur_time = time.time()
-    while time.time() < cur_time + self.time_out:
+    while time.time() < cur_time + TIMEOUT:
       recv_data = self.data_handler.recv()
       if recv_data.find('X:') > -1:
         val = re.findall(r'[-+]?\d*\.\d+|\d+', recv_data)
