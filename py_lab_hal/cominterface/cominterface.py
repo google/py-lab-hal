@@ -515,6 +515,7 @@ class BytesBuffer:
         return self.get(self.search_index + len(key))
 
       self.search_index += 1
+    self.reset_index()
     return None
 
   def clean(self, target_term: bytes) -> None:
