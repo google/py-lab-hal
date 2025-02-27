@@ -20,6 +20,9 @@ from py_lab_hal.cominterface import cominterface
 
 def main() -> None:
   build = builder.PyLabHALBuilder()
+  build.instrument_config.idn = False
+  build.instrument_config.reset = False
+  build.instrument_config.clear = False
   build.connection_config = cominterface.ConnectConfig(
       visa_resource='/dev/ttyACM0',
       serial_config=cominterface.SerialConfig(baud_rate=115200),
@@ -28,9 +31,9 @@ def main() -> None:
 
   try:
     arm.move_to_origin()  # (0, 0, 0)
-    arm.absolute_move_to(x=0, y=50)  # (0, 50, 0)
-    arm.relative_move_to(x=-100, y=-100)  # (-100, -50, 0)
-    arm.get_state()
+    arm.absolute_move_to(x=-100, y=350)  # (-100, 350, 0)
+    arm.relative_move_to(y=-60)  # (-100, 290, 0)
+
   finally:
     arm.close()
 

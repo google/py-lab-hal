@@ -16,7 +16,7 @@
 
 Dexarm is an articulated robot arm.
 The coordinate system is the Cartesian coordinate system.
-The origin is located at (X, Y, Z) = (0, 0, 0).
+The origin is located at (X, Y, Z) = (0, 300, 0).
 Use G-Code control commands.
 """
 
@@ -25,14 +25,19 @@ from __future__ import annotations
 import enum
 import logging
 import re
-import time
 
 from py_lab_hal.cominterface import cominterface
 from py_lab_hal.instrument import instrument
 from py_lab_hal.instrument.arm import arm
 
-Y_OFFSET = 300.0
-TIMEOUT = 10
+DEXARM_READ_TIMEOUT = 30
+DUMMY_RESPONSE_PREFIX = 'wait\n'
+REAL_POSITION_REGEX = re.compile(
+    r'Real position X:([-\d.]+) Y:([-\d.]+) Z:([-\d.]+) E:([-\d.]+)'
+)
+DEXARM_THETA_REGEX = re.compile(
+    r'DEXARM Theta A:([-\d.]+)  Theta B:([-\d.]+)  Theta C:([-\d.]+)'
+)
 
 
 class Dexarm(arm.Arm):
@@ -47,59 +52,16 @@ class Dexarm(arm.Arm):
       com: cominterface.ComInterfaceClass,
       inst_config: instrument.InstrumentConfig,
   ) -> None:
+    com.connect_config.terminator.read = 'ok\n'
     super().__init__(com, inst_config)
-    self.reset_state()
-
-  def __send(self, cmd: str, wait: bool = True):
-    """Send command to arm.
-
-    Args:
-        cmd (str): command to send.
-        wait (bool): if wait is true, then wait until arm response ok.
-    """
-    self.data_handler.send(cmd)
-    if not wait:
-      return
-    cur_time = time.time()
-    while time.time() < cur_time + TIMEOUT:
-      recv_data = self.data_handler.recv()
-      if recv_data and recv_data.find('ok') >= 0:
-        return
-    logging.warning('Wait for response ok time out.')
 
   def wait(self) -> None:
     """Wait until previous operation finish."""
-    self.__send('M400')
-
-  def reset_state(self):
-    self.state = {
-        'X': 0.0,
-        'Y': 0.0,
-        'Z': 0.0,
-        'E': 0.0,
-        'A': 0.0,
-        'B': 0.0,
-        'C': 0.0,
-    }
-
-  def get_state(self) -> dict[str, float]:
-    """Return arm's current state."""
-    logging.info('The status of arm is %s', self.state)
-    return self.state
-
-  def update_state(self) -> None:
-    """Get current position and update state."""
-    cur_pos = self.get_current_position()
-    if not cur_pos:
-      logging.warning('Fail to update state.')
-      return
-    for i in self.state:
-      self.state[i] = cur_pos[i]
+    self.query('M400')
 
   def move_to_origin(self) -> None:
     """Move to the original position."""
-    self.__send('M1112')
-    self.update_state()
+    self.query('M1112')
 
   def prepare_move_command(
       self,
@@ -110,10 +72,22 @@ class Dexarm(arm.Arm):
       feedrate: float,
       mode: str,
   ) -> str:
+    """Prepare move command.
+
+    Args:
+      x (float): x-axis coordinate. Unit: mm
+      y (float): y-axis coordinate. Unit: mm
+      z (float): z-axis coordinate. Unit: mm
+      e (float): e-axis coordinate. Unit: mm
+      feedrate (float): feedrate. Unit: mm/s
+      mode (str): G1 or G0.
+
+    Returns:
+      str: move command.
+    """
+
     def axis_command(axis: str, pos: float | None) -> str:
-      if pos is None:
-        return f'{axis}{self.state[axis]+(0.0 if axis != "Y" else Y_OFFSET)}'
-      return f'{axis}{round(pos)+(0.0 if axis != "Y" else Y_OFFSET)}'
+      return f'{axis}{round(pos)}' if pos is not None else ''
 
     cmd = f'{mode}F{feedrate}'
     cmd += axis_command('X', x)
@@ -132,8 +106,7 @@ class Dexarm(arm.Arm):
       mode: str = Mode.G1.value,
   ) -> None:
     cmd = self.prepare_move_command(x, y, z, e, feedrate, mode)
-    self.__send(cmd)
-    self.update_state()
+    self.query(cmd)
 
   def relative_move_to(
       self,
@@ -144,47 +117,51 @@ class Dexarm(arm.Arm):
       feedrate: int = 10_000,
       mode: str = Mode.G1.value,
   ) -> None:
+    curren_pos = self.get_current_position()
     cmd = self.prepare_move_command(
-        x + self.state['X'],
-        y + self.state['Y'],
-        z + self.state['Z'],
-        e + self.state['E'],
+        x + curren_pos['X'],
+        y + curren_pos['Y'],
+        z + curren_pos['Z'],
+        e + curren_pos['E'],
         feedrate,
         mode,
     )
-    self.__send(cmd)
-    self.update_state()
+    self.query(cmd)
 
   def get_current_position(self) -> dict[str, float]:
     """Get current position."""
-    self.__send('M114', wait=False)
-    coor = [i for i in self.state]
-    cur_pos = {i: 0.0 for i in coor}
-    cur_time = time.time()
-    while time.time() < cur_time + TIMEOUT:
-      recv_data = self.data_handler.recv()
-      if recv_data.find('X:') > -1:
-        val = re.findall(r'[-+]?\d*\.\d+|\d+', recv_data)
-        for i, value in enumerate(val):
-          cur_pos[coor[i]] = float(value) - (0.0 if i != 'Y' else Y_OFFSET)
-      if recv_data.find('DEXARM Theta') > -1:
-        val = re.findall(r'[-+]?\d*\.\d+|\d+', recv_data)
-        for i, value in enumerate(val):
-          cur_pos[coor[i + coor.index('A')]] = float(value)
-      if recv_data.find('ok') > -1:
-        return cur_pos
-    logging.warning('Get current position time out.')
-    return {}
+    resp = self.query('M114')
+    result = {}
+    if real_position_match := REAL_POSITION_REGEX.search(resp):
+      x, y, z, e = real_position_match.groups()
+      result.update(
+          {'X': float(x), 'Y': float(y), 'Z': float(z), 'E': float(e)}
+      )
+    else:
+      logging.warning('Get position failed.')
+      return {}
+
+    if dexarm_theta_match := DEXARM_THETA_REGEX.search(resp):
+      a, b, c = dexarm_theta_match.groups()
+      result.update({'A': float(a), 'B': float(b), 'C': float(c)})
+    else:
+      logging.warning('Get theta failed.')
+      return {}
+    return result
 
   def set_origin(self) -> None:
     """Set current position to be the origin."""
-    self.__send('G92 X0 Y0 Z0 E0')
-    self.update_state()
+    self.query('G92 X0 Y0 Z0 E0')
 
   def delay(self, value: float, unit: str = 's') -> None:
     """Delay {value} {unit} to perform next movement."""
     if unit in ['s', 'ms']:
       cmd = f'G4 S{str(value)}' if unit == 's' else f'G4 P{str(value)}'
-      self.__send(cmd)
+      self.query(cmd)
     else:
       logging.warning('Unit %s is not supported.', unit)
+
+  def query(self, cmd: str) -> str:
+    """Dexarm wrapper query function."""
+    resp = self.data_handler.query(cmd, timeout=DEXARM_READ_TIMEOUT)
+    return re.sub(f'^({DUMMY_RESPONSE_PREFIX})+', '', resp)

@@ -33,19 +33,7 @@ class Arm(instrument.Instrument, metaclass=abc.ABCMeta):
 
   def open_instrument(self):
     super().open_instrument()
-    self.reset_state()
     self.move_to_origin()
-    self.update_state()
-
-  @abc.abstractmethod
-  def update_state(self):
-    """Get current position and update state."""
-    pass
-
-  @abc.abstractmethod
-  def reset_state(self):
-    """Reset arm's state."""
-    pass
 
   @abc.abstractmethod
   def move_to_origin(self):
@@ -81,10 +69,6 @@ class Arm(instrument.Instrument, metaclass=abc.ABCMeta):
       **kwargs: keyword arguments
     """
     pass
-
-  @abc.abstractmethod
-  def get_state(self):
-    """Return arm's current state."""
 
   @abc.abstractmethod
   def get_current_position(self) -> dict[str, float]:
