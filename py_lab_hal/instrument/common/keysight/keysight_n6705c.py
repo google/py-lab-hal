@@ -14,6 +14,8 @@
 
 """Common code for Keysight N6705C."""
 
+import logging
+
 from py_lab_hal.cominterface import cominterface
 from py_lab_hal.instrument import instrument
 from py_lab_hal.util import util
@@ -150,10 +152,25 @@ class KeysightN6705c(instrument.Instrument):
     range_type = util.get_from_dict(CHANNEL_MODE, range_type)
     self.data_handler.send(f'SOUR:{range_type}:RANG {max_value},(@{channel})')
 
-  def set_slewrate(self, channel, edge, rate):
-    mode = self.data_handler.query(f'FUNC? (@{channel})')
+  def set_channel_slewrate(
+      self,
+      channel: int,
+      channel_mode: instrument.ChannelMode,
+      edge: instrument.EdgeTriggerSlope,
+      rate: float | instrument.ValueRange,
+  ):
+    mode = util.get_from_dict(CHANNEL_MODE, channel_mode)
     edge = util.get_from_dict(EDGE_SLOPE, edge)
-    self.data_handler.send(f'{mode}:SLEW:{edge} {rate},(@{channel})')
+    self.data_handler.send(f'{mode}:SLEW:COUPle OFF,(@{channel})')
+    if isinstance(rate, instrument.ValueRange):
+      if rate == instrument.ValueRange.MIN:
+        raise RuntimeError('There is no MIN for channel slew rate setting.')
+      if rate == instrument.ValueRange.DEFFULT:
+        logging.debug('The default channel slew rate is MAX')
+      self.data_handler.send(f'{mode}:SLEW:{edge}:MAXimum ON,(@{channel})')
+    else:
+      self.data_handler.send(f'{mode}:SLEW:{edge}:MAXimum OFF,(@{channel})')
+      self.data_handler.send(f'{mode}:SLEW:{edge} {rate},(@{channel})')
 
   def short_output(self, channel, enable):
     self.data_handler.send(f'OUTPut:SHORt {int(enable)},(@{channel}')

@@ -59,3 +59,8 @@ class KeysightN6705c(keysight_n6705c.KeysightN6705c, eload.Eload):
     if power_line_freq == 50:
       pts = 3906
     self.data_handler.send(f'SENSe:SWEep:POINts {pts * nplc},(@{channel}')
+
+  def set_slewrate(self, channel, edge, rate) -> None:
+    return self.set_channel_slewrate(
+        channel, instrument.ChannelMode.CURRENT_DC, edge, rate
+    )
