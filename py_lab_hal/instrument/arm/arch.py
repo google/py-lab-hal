@@ -28,8 +28,6 @@ import logging
 import os
 import re
 
-from py_lab_hal.cominterface import cominterface
-from py_lab_hal.instrument import instrument
 from py_lab_hal.instrument.arm import arm
 
 
@@ -53,38 +51,9 @@ class Arch(arm.Arm):
     REPLY_NO = '[NO]'
     EMS = '[EMS]'
 
-  def __init__(
-      self,
-      com: cominterface.ComInterfaceClass,
-      inst_config: instrument.InstrumentConfig,
-  ) -> None:
-    super().__init__(com, inst_config)
-    self.reset_state()
-
-  def get_state(self) -> dict[str, float]:
-    """Return arm's current state."""
-    logging.info(self.state)
-    return self.state
-
-  def reset_state(self):
-    self.state = {
-        'X': 0.0,
-        'Y': 0.0,
-        'Z': 0.0,
-        'A': 0.0,
-        'B': 0.0,
-        'J': 0.0,
-    }
-
-  def update_state(self) -> None:
-    cur_pos = self.get_current_position()
-    for axis, value in cur_pos.items():
-      self.state[axis] = round(value)
-
   def move_to_origin(self) -> None:
     cmd = self.Commands.MOVE_TO_ORIGIN.value
     recv_data = self.__query(cmd)
-    self.update_state()
     logging.info(recv_data)
 
   def prepare_move_command(
@@ -119,7 +88,6 @@ class Arch(arm.Arm):
   ) -> None:
     cmd = self.prepare_move_command(x, y, z, a, b)
     recv_data = self.__query(cmd)
-    self.update_state()
     logging.info(recv_data)
 
   def relative_move_to(
@@ -138,7 +106,6 @@ class Arch(arm.Arm):
         b + self.state['B'],
     )
     recv_data = self.__query(cmd)
-    self.update_state()
     logging.info(recv_data)
 
   def __query(self, cmd: str) -> str:
@@ -150,7 +117,7 @@ class Arch(arm.Arm):
   def get_current_position(self) -> dict[str, float]:
     """Get current position."""
     recv_data = self.__query(self.Commands.QUERY_POSITION.value)
-    cur_pos = dict()
+    cur_pos = {}
     pattern = r'(\w+)\s+(\d+\.?\d*)'
     for axis, value in re.findall(pattern, recv_data):
       cur_pos[axis] = float(value)
@@ -161,7 +128,7 @@ class Arch(arm.Arm):
     if not os.path.exists(filepath):
       raise FileNotFoundError(f'{filepath} does not exit.')
     cmd = self.Commands.SEND_FILE.value
-    with open(filepath, 'r') as file:
+    with open(filepath, 'r', encoding='utf-8') as file:
       cmd = f'{cmd}{file.read()}'
       resp_data = self.__query(cmd)
       logging.info(resp_data)
